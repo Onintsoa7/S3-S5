@@ -16,6 +16,14 @@
         <servlet-name>ServletMateriel</servlet-name>
         <servlet-class>Controller.ServletMateriel</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletFormStyleMateriel</servlet-name>
+        <servlet-class>Controller.ServletFormStyleMateriel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletListeStyle</servlet-name>
+        <servlet-class>Controller.ServletListeStyle</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletLogin</servlet-name>
         <url-pattern>/ServletLogin</url-pattern>
@@ -31,6 +39,14 @@
     <servlet-mapping>
         <servlet-name>ServletMateriel</servlet-name>
         <url-pattern>/ServletMateriel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletFormStyleMateriel</servlet-name>
+        <url-pattern>/ServletFormStyleMateriel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletListeStyle</servlet-name>
+        <url-pattern>/ServletListeStyle</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

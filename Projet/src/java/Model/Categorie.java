@@ -7,7 +7,10 @@ package Model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -65,6 +68,42 @@ public class Categorie {
                 connection.close();
             }
         }
+    }
+        public static Categorie[] categorie(Connection connection) throws Exception {
+        String request = "";
+        request = "select * from categorie";
+        boolean isOpen = false;
+        ArrayList<Categorie> categorie_liste = null;
+        Categorie[] categorie_tableau = null;
+        try {
+            if (connection == null) {
+            connection = ConnectionPs.connexionPostgreSQL();
+        } else {
+            isOpen = true;
+        }
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(request);
+            categorie_liste = new ArrayList();
+            while (resultSet.next()) {
+                categorie_liste.add(
+                        new Categorie(
+                        resultSet.getString("idcategorie"),
+                        resultSet.getString("nom")
+                    ));
+            }
+            categorie_tableau = new Categorie[categorie_liste.size()];
+            for (int i = 0; i < categorie_liste.size(); i++) {
+                categorie_tableau[i] = categorie_liste.get(i);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            if (!isOpen) {
+                connection.close();
+            }
+        }
+        return categorie_tableau;
     }
 
 }

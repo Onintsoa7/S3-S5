@@ -7,7 +7,10 @@ package Model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -43,7 +46,7 @@ public class Style {
         this.nom = nom;
     }
 
-    public static void insertStyle(Style Style, Connection connection) throws Exception {
+    public static void insertStyle(Style style, Connection connection) throws Exception {
         boolean IsOpen = false;
         if (connection == null) {
             connection.setAutoCommit(false);
@@ -54,7 +57,7 @@ public class Style {
         try {
             String sql = "INSERT INTO Style (nom) VALUES (?)";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, Style.getNom());
+            statement.setString(1, style.getNom());
             statement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -65,5 +68,42 @@ public class Style {
                 connection.close();
             }
         }
+    }
+
+    public static Style[] style(Connection connection) throws Exception {
+        String request = "";
+        request = "select * from style";
+        boolean isOpen = false;
+        ArrayList<Style> style_liste = null;
+        Style[] style_tableau = null;
+        try {
+            if (connection == null) {
+                connection = ConnectionPs.connexionPostgreSQL();
+            } else {
+                isOpen = true;
+            }
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(request);
+            style_liste = new ArrayList();
+            while (resultSet.next()) {
+                style_liste.add(
+                        new Style(
+                                resultSet.getString("idstyle"),
+                                resultSet.getString("nom")
+                        ));
+            }
+            style_tableau = new Style[style_liste.size()];
+            for (int i = 0; i < style_liste.size(); i++) {
+                style_tableau[i] = style_liste.get(i);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            if (!isOpen) {
+                connection.close();
+            }
+        }
+        return style_tableau;
     }
 }

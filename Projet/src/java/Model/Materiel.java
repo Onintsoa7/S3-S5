@@ -7,7 +7,10 @@ package Model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -65,5 +68,41 @@ public class Materiel {
                 connection.close();
             }
         }
+    }
+    public static Materiel[] materiel(Connection connection) throws Exception {
+        String request = "";
+        request = "select * from materiel";
+        boolean isOpen = false;
+        ArrayList<Materiel> Materiel_liste = null;
+        Materiel[] Materiel_tableau = null;
+        try {
+            if (connection == null) {
+            connection = ConnectionPs.connexionPostgreSQL();
+        } else {
+            isOpen = true;
+        }
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(request);
+            Materiel_liste = new ArrayList();
+            while (resultSet.next()) {
+                Materiel_liste.add(
+                        new Materiel(
+                        resultSet.getString("idmateriel"),
+                        resultSet.getString("nom")
+                    ));
+            }
+            Materiel_tableau = new Materiel[Materiel_liste.size()];
+            for (int i = 0; i < Materiel_liste.size(); i++) {
+                Materiel_tableau[i] = Materiel_liste.get(i);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            if (!isOpen) {
+                connection.close();
+            }
+        }
+        return Materiel_tableau;
     }
 }

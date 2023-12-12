@@ -87,6 +87,21 @@
                 <li class="nav-item">
                     <a class="nav-link pl-3" href="form.jsp"><span class="ml-1 item-text">Formulaire</span></a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link pl-3" href="formCategorie.jsp"><span class="ml-1 item-text">Categorie</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link pl-3" href="formMateriel.jsp"><span class="ml-1 item-text">Materiel</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link pl-3" href="formStyle.jsp"><span class="ml-1 item-text">Style</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link pl-3" href="ServletFormStyleMateriel"><span class="ml-1 item-text">Materiel et style</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link pl-3" href="ServletListeStyle"><span class="ml-1 item-text">Liste materiel et style</span></a>
+                </li>
               </ul>
             </li>
           </ul>
