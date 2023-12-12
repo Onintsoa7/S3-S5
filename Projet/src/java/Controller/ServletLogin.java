@@ -61,16 +61,20 @@ public class ServletLogin extends HttpServlet {
         //processRequest(request, response);
         HttpSession session = request.getSession();
         RequestDispatcher dispatcher = null;
-        String email = (String) session.getAttribute("email");
-        System.out.println(email);
-        if(email == null){
-            session.setAttribute("email", null);
+        if(request.getParameter("out") != null){
+            session.invalidate();
             dispatcher = request.getRequestDispatcher("login.jsp");
         }else{
-            session.setAttribute("email", "moi");
-            dispatcher = request.getRequestDispatcher("index.jsp");
+        String email = (String) session.getAttribute("email");
+        System.out.println(email);
+            if(email == null){
+                dispatcher = request.getRequestDispatcher("login.jsp");
+            }else{
+                session.setAttribute("email", "moi");
+                dispatcher = request.getRequestDispatcher("index.jsp");
+            }
         }
-        dispatcher.forward(request, response);
+            dispatcher.forward(request, response);
     }
 
     /**

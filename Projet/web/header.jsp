@@ -49,7 +49,7 @@
               </span>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">Deconnexion</a>
+              <a class="dropdown-item" href="ServletLogin?out=1">Deconnexion</a>
             </div>
           </li>
         </ul>
