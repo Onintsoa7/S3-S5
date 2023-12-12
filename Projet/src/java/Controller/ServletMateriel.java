@@ -5,20 +5,25 @@
  */
 package Controller;
 
-import javax.servlet.RequestDispatcher;
+import Model.Categorie;
+import Model.ConnectionPs;
+import Model.Materiel;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author user
+ * @author Chan Kenny
  */
-public class ServletLogin extends HttpServlet {
+public class ServletMateriel extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +42,10 @@ public class ServletLogin extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ServletLogin</title>");            
+            out.println("<title>Servlet ServletMateriel</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ServletLogin at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ServletMateriel at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,23 +63,7 @@ public class ServletLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-        HttpSession session = request.getSession();
-        RequestDispatcher dispatcher = null;
-        if(request.getParameter("out") != null){
-            session.invalidate();
-            dispatcher = request.getRequestDispatcher("login.jsp");
-        }else{
-        String email = (String) session.getAttribute("email");
-        System.out.println(email);
-            if(email == null){
-                dispatcher = request.getRequestDispatcher("login.jsp");
-            }else{
-                session.setAttribute("email", "moi");
-                dispatcher = request.getRequestDispatcher("index.jsp");
-            }
-        }
-            dispatcher.forward(request, response);
+
     }
 
     /**
@@ -89,10 +78,18 @@ public class ServletLogin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        String email = request.getParameter("email");
-        System.out.println(email);
-        HttpSession session = request.getSession();
-        session.setAttribute("email", email);
+        String nom = request.getParameter("nom");
+        Materiel materiel = new Materiel();
+        materiel.setNom(nom);
+
+        Connection connection = ConnectionPs.connexionPostgreSQL();
+        
+        try {
+            Materiel.insertMateriel(materiel, connection);
+        } catch (Exception ex) {
+            Logger.getLogger(ServletCategorie.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         RequestDispatcher dispatcher = null;
         dispatcher = request.getRequestDispatcher("index.jsp");
         dispatcher.forward(request, response);
