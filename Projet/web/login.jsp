@@ -42,13 +42,13 @@
   <body>
   <html>
     <main role="main" class="main-content">
-        <form action="ServletLogin" method="post">
             <div class="container-fluid">
               <div class="row justify-content-center">
                 <div class="col-12">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="card shadow mb-4">
+                    <form action="ServletLogin" method="post">
                         <div class="card-body">
                           <p class="mb-2"><strong>Login</strong></p>
                           <div class="form-group mb-3">
@@ -62,14 +62,14 @@
                           <div class="form-group mb-1">
                               <button class="form-control" type="submit" style="width: 100px" >Valider</button>
                           </div>
-                        </div> <!-- /.card-body -->
+                        </div> 
+                    </form>
                       </div> <!-- /.card -->
                     </div> <!-- /.col -->
                 </div> <!-- .col-12 -->
               </div> <!-- .row -->
             </div> 
             </div> 
-    </form>
           </main>
   </body>
 </html>
