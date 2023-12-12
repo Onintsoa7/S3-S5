@@ -8,6 +8,7 @@ package Controller;
 import Model.ConnectionPs;
 import Model.Materiel;
 import Model.Style;
+import Model.StyleMateriel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -23,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Chan Kenny
  */
-public class ServletStyle extends HttpServlet {
+public class ServletListeStyle extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +43,10 @@ public class ServletStyle extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ServletStyle</title>");
+            out.println("<title>Servlet ServletListeStyle</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ServletStyle at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ServletListeStyle at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,7 +64,16 @@ public class ServletStyle extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        Connection connection = ConnectionPs.connexionPostgreSQL();
+        try {
+            Style[] styles = Style.style(connection);
+            request.setAttribute("styles", styles);
+            RequestDispatcher dispatcher = null;
+            dispatcher = request.getRequestDispatcher("listeStyle.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ServletFormStyleMateriel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -77,21 +87,21 @@ public class ServletStyle extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-        String nom = request.getParameter("nom");
-        Style style = new Style();
-        style.setNom(nom);
-
+                String style = request.getParameter("style");
+        Style styles = new Style();
+        styles.setIdStyle(style);
         Connection connection = ConnectionPs.connexionPostgreSQL();
-
         try {
-            Style.insertStyle(style, connection);
+            StyleMateriel [] stylemateriels = StyleMateriel.styleMateriels(style, connection);
+            request.setAttribute("stylemateriels", stylemateriels);
         } catch (Exception ex) {
-            Logger.getLogger(ServletCategorie.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServletListeStyle.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
+        
+        
         RequestDispatcher dispatcher = null;
-        dispatcher = request.getRequestDispatcher("index.jsp");
+        dispatcher = request.getRequestDispatcher("listeStyleMateriel.jsp");
         dispatcher.forward(request, response);
     }
 

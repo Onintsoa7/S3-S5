@@ -32,3 +32,14 @@ CREATE  TABLE stylemateriel (
 ALTER TABLE stylemateriel ADD CONSTRAINT fk_stylemateriel_materiel FOREIGN KEY ( idmateriel ) REFERENCES materiel( idmateriel );
 
 ALTER TABLE stylemateriel ADD CONSTRAINT fk_stylemateriel_syle FOREIGN KEY ( idstyle ) REFERENCES style( idstyle );
+CREATE VIEW view_style_materiel AS
+SELECT
+    sm.idstylemateriel,
+    s.idstyle,
+    s.nom AS style_nom,
+    m.idmateriel,
+    m.nom AS materiel_nom
+FROM
+    stylemateriel sm
+    JOIN style s ON sm.idstyle = s.idstyle
+    JOIN materiel m ON sm.idmateriel = m.idmateriel;
