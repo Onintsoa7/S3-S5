@@ -20,10 +20,18 @@ public class Style {
 
     String idStyle;
     String nom;
+    int etat;
+
+    public Style(String idStyle, String nom, int etat) {
+        this.idStyle = idStyle;
+        this.nom = nom;
+        this.etat = etat;
+    }
 
     public Style(String idStyle, String nom) {
         this.idStyle = idStyle;
         this.nom = nom;
+        this.etat = 1;
     }
 
     public Style() {
@@ -46,20 +54,49 @@ public class Style {
         this.nom = nom;
     }
 
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+
     public static void insertStyle(Style style, Connection connection) throws Exception {
         boolean IsOpen = false;
         if (connection == null) {
-            connection.setAutoCommit(false);
             connection = ConnectionPs.connexionPostgreSQL();
         } else {
             IsOpen = true;
         }
         try {
-            String sql = "INSERT INTO Style (nom) VALUES (?)";
+            String sql = "INSERT INTO Style (nom,etat) VALUES (?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, style.getNom());
+            statement.setInt(2, style.getEtat());
             statement.executeUpdate();
-            connection.commit();
+        } catch (SQLException e) {
+            //connection.rollback();
+            e.printStackTrace();
+        } finally {
+            if (IsOpen == false) {
+                connection.close();
+            }
+        }
+    }
+
+    public static void deleteStyle(String idStyle, Connection connection) throws Exception {
+        boolean IsOpen = false;
+        if (connection == null) {
+            connection = ConnectionPs.connexionPostgreSQL();
+        } else {
+            IsOpen = true;
+        }
+        try {
+            String sql = "DELETE FROM  Style WHERE idStyle = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, idStyle);
+            statement.executeUpdate();
         } catch (SQLException e) {
             //connection.rollback();
             e.printStackTrace();
@@ -72,7 +109,7 @@ public class Style {
 
     public static Style[] style(Connection connection) throws Exception {
         String request = "";
-        request = "select * from style";
+        request = "select * from style WHERE etat = 1";
         boolean isOpen = false;
         ArrayList<Style> style_liste = null;
         Style[] style_tableau = null;
@@ -89,7 +126,8 @@ public class Style {
                 style_liste.add(
                         new Style(
                                 resultSet.getString("idstyle"),
-                                resultSet.getString("nom")
+                                resultSet.getString("nom"),
+                                resultSet.getInt("etat")
                         ));
             }
             style_tableau = new Style[style_liste.size()];
@@ -106,4 +144,33 @@ public class Style {
         }
         return style_tableau;
     }
+
+    public static int changeStatstyle(String idstyle, int etat, Connection connection) throws SQLException {
+        int resultat = 0;
+        String sql = "";
+        sql = "UPDATE style SET etat = ? where idstyle = ?";
+        boolean isOpen = false;
+        try {
+
+            if (connection == null) {
+                connection = ConnectionPs.connexionPostgreSQL();
+            } else {
+                isOpen = true;
+            }
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, etat);
+            statement.setString(2, idstyle);
+            resultat = statement.executeUpdate();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            if (!isOpen) {
+                connection.close();
+            }
+        }
+        return resultat;
+    }
+
 }

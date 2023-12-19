@@ -1,6 +1,6 @@
 <%-- 
-    Document   : formCategorie
-    Created on : 12 déc. 2023, 15:54:58
+    Document   : taille.jsp
+    Created on : 19 déc. 2023, 14:58:05
     Author     : Chan Kenny
 --%>
 
@@ -32,7 +32,9 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="header.jsp" %>
-
+<%@page import="Model.*" %>
+<% Taille[] taille = (Taille[]) request.getAttribute("tailles");
+%>
 <main role="main" class="main-content">
 
     <div class="card shadow mb-4">
@@ -40,7 +42,7 @@
             <strong class="card-title">Formulaire Categorie</strong>
         </div>
         <div class="card-body">
-            <form method="post" action="ServletCategorie">
+            <form method="post" action="ServletTaille">
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-3 col-form-label">Nom de la categorie</label>
                     <div class="col-sm-9">

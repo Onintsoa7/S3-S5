@@ -20,10 +20,19 @@ public class Materiel {
 
     String idMateriel;
     String nom;
+    int etat;
 
+
+
+    public Materiel(String idMateriel, String nom,int etat) {
+        this.idMateriel = idMateriel;
+        this.nom = nom;
+        this.etat = etat;
+    }
     public Materiel(String idMateriel, String nom) {
         this.idMateriel = idMateriel;
         this.nom = nom;
+        this.etat = 1;
     }
 
     public Materiel() {
@@ -45,6 +54,17 @@ public class Materiel {
     public void setNom(String nom) {
         this.nom = nom;
     }
+    
+        public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+    
+    
+    
 
     public static void insertMateriel(Materiel materiel, Connection connection) throws Exception {
         boolean IsOpen = false;
@@ -55,11 +75,11 @@ public class Materiel {
             IsOpen = true;
         }
         try {
-            String sql = "INSERT INTO Materiel (nom) VALUES (?)";
+            String sql = "INSERT INTO Materiel (nom,etat) VALUES (?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, materiel.getNom());
+            statement.setInt(2, materiel.getEtat());
             statement.executeUpdate();
-            connection.commit();
         } catch (SQLException e) {
             //connection.rollback();
             e.printStackTrace();
@@ -71,7 +91,7 @@ public class Materiel {
     }
     public static Materiel[] materiel(Connection connection) throws Exception {
         String request = "";
-        request = "select * from materiel";
+        request = "select * from materiel WHERE etat = 1";
         boolean isOpen = false;
         ArrayList<Materiel> Materiel_liste = null;
         Materiel[] Materiel_tableau = null;
@@ -88,7 +108,8 @@ public class Materiel {
                 Materiel_liste.add(
                         new Materiel(
                         resultSet.getString("idmateriel"),
-                        resultSet.getString("nom")
+                        resultSet.getString("nom"),
+                        resultSet.getInt("etat")
                     ));
             }
             Materiel_tableau = new Materiel[Materiel_liste.size()];
@@ -104,5 +125,33 @@ public class Materiel {
             }
         }
         return Materiel_tableau;
+    }
+    
+    public static int changeStatMateriel(String idMateriel,int etat,Connection connection) throws SQLException {
+        int resultat = 0;
+        String sql = "";
+        sql = "UPDATE materiel SET etat = ? where idMateriel = ?";
+        boolean isOpen = false;
+        try {
+
+            if (connection == null) {
+                connection = ConnectionPs.connexionPostgreSQL();
+            } else {
+                isOpen = true;
+            }
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, etat);
+            statement.setString(2, idMateriel);
+            resultat = statement.executeUpdate();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            if (!isOpen) {
+                connection.close();
+            }
+        }
+        return resultat;
     }
 }

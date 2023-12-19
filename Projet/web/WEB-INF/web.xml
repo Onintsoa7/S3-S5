@@ -24,6 +24,26 @@
         <servlet-name>ServletListeStyle</servlet-name>
         <servlet-class>Controller.ServletListeStyle</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletModifyStyleMateriel</servlet-name>
+        <servlet-class>Controller.ServletModifyStyleMateriel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletSupprimeStyle</servlet-name>
+        <servlet-class>Controller.ServletSupprimeStyle</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletTaille</servlet-name>
+        <servlet-class>Controller.ServletTaille</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Servletformule</servlet-name>
+        <servlet-class>Controller.Servletformule</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletAfficheFinal</servlet-name>
+        <servlet-class>Controller.ServletAfficheFinal</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletLogin</servlet-name>
         <url-pattern>/ServletLogin</url-pattern>
@@ -47,6 +67,26 @@
     <servlet-mapping>
         <servlet-name>ServletListeStyle</servlet-name>
         <url-pattern>/ServletListeStyle</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletModifyStyleMateriel</servlet-name>
+        <url-pattern>/ServletModifyStyleMateriel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletSupprimeStyle</servlet-name>
+        <url-pattern>/ServletSupprimeStyle</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletTaille</servlet-name>
+        <url-pattern>/ServletTaille</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servletformule</servlet-name>
+        <url-pattern>/Servletformule</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletAfficheFinal</servlet-name>
+        <url-pattern>/ServletAfficheFinal</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
