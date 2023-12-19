@@ -3427,9 +3427,7 @@ input[type="button"].btn-block {
           border-bottom-left-radius: 0; } }
 
 .card-columns .card {
-  margin-bottom: 0.75rem; 
-
-}
+  margin-bottom: 0.75rem; }
 
 @media (min-width: 576px) {
   .card-columns {
@@ -7342,8 +7340,7 @@ a.text-dark:hover, a.text-dark:focus {
 body {
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
- }
+  -ms-text-size-adjust: 100%; }
 
 a {
   color: #1b68ff; }

@@ -64,15 +64,33 @@ public class ServletListeStyle extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Connection connection = ConnectionPs.connexionPostgreSQL();
-        try {
-            Style[] styles = Style.style(connection);
-            request.setAttribute("styles", styles);
+        if (request.getParameter("Style") != null && !request.getParameter("Style").isEmpty()) {
+            String style = request.getParameter("Style");
+            request.setAttribute("nom",request.getParameter("nom"));
+            Style styles = new Style();
+            styles.setIdStyle(style);
+            Connection connection = ConnectionPs.connexionPostgreSQL();
+            try {
+                StyleMateriel[] stylemateriels = StyleMateriel.styleMateriels(style, connection);
+                request.setAttribute("stylemateriels", stylemateriels);
+            } catch (Exception ex) {
+                Logger.getLogger(ServletListeStyle.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             RequestDispatcher dispatcher = null;
-            dispatcher = request.getRequestDispatcher("listeStyle.jsp");
+            dispatcher = request.getRequestDispatcher("listeStyleMateriel.jsp");
             dispatcher.forward(request, response);
-        } catch (Exception ex) {
-            Logger.getLogger(ServletFormStyleMateriel.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            Connection connection = ConnectionPs.connexionPostgreSQL();
+            try {
+                Style[] styles = Style.style(connection);
+                request.setAttribute("styles", styles);
+                RequestDispatcher dispatcher = null;
+                dispatcher = request.getRequestDispatcher("listeStyle.jsp");
+                dispatcher.forward(request, response);
+            } catch (Exception ex) {
+                Logger.getLogger(ServletFormStyleMateriel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -87,22 +105,7 @@ public class ServletListeStyle extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                String style = request.getParameter("style");
-        Style styles = new Style();
-        styles.setIdStyle(style);
-        Connection connection = ConnectionPs.connexionPostgreSQL();
-        try {
-            StyleMateriel [] stylemateriels = StyleMateriel.styleMateriels(style, connection);
-            request.setAttribute("stylemateriels", stylemateriels);
-        } catch (Exception ex) {
-            Logger.getLogger(ServletListeStyle.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        
-        RequestDispatcher dispatcher = null;
-        dispatcher = request.getRequestDispatcher("listeStyleMateriel.jsp");
-        dispatcher.forward(request, response);
+
     }
 
     /**

@@ -63,7 +63,34 @@ public class ServletStyle extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if (request.getParameter("style") != null) {
+            if (request.getParameter("nom") != null) {
+                //modification
+            } else {
+                String idstyle = request.getParameter("style");
+                Connection connection = ConnectionPs.connexionPostgreSQL();
+                try {
+                    Style.changeStatstyle(idstyle,0, connection);
+                } catch (Exception ex) {
+                    Logger.getLogger(ServletListeStyle.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
+                RequestDispatcher dispatcher = null;
+                dispatcher = request.getRequestDispatcher("index.jsp");
+                dispatcher.forward(request, response);
+            }
+        } else {
+            Connection connection = ConnectionPs.connexionPostgreSQL();
+            try {
+                Style[] styles = Style.style(connection);
+                request.setAttribute("style", styles);
+                RequestDispatcher dispatcher = null;
+                dispatcher = request.getRequestDispatcher("formStyle.jsp");
+                dispatcher.forward(request, response);
+            } catch (Exception ex) {
+                Logger.getLogger(ServletFormStyleMateriel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     /**
@@ -81,6 +108,7 @@ public class ServletStyle extends HttpServlet {
         String nom = request.getParameter("nom");
         Style style = new Style();
         style.setNom(nom);
+        style.setEtat(1);
 
         Connection connection = ConnectionPs.connexionPostgreSQL();
 

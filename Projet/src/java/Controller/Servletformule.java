@@ -7,12 +7,13 @@ package Controller;
 
 import Model.Categorie;
 import Model.ConnectionPs;
+import Model.Formule;
 import Model.Materiel;
+import Model.StyleMateriel;
+import Model.Taille;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Chan Kenny
  */
-public class ServletMateriel extends HttpServlet {
+public class Servletformule extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +43,10 @@ public class ServletMateriel extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ServletMateriel</title>");
+            out.println("<title>Servlet Servletformule</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ServletMateriel at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Servletformule at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,36 +64,25 @@ public class ServletMateriel extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getParameter("materiel") != null) {
-            if (request.getParameter("nom") != null) {
-                   //modification
-            } else {
-                String idmateriel = request.getParameter("materiel");
-                Connection connection = ConnectionPs.connexionPostgreSQL();
-                try {
-                    Materiel.changeStatMateriel(idmateriel, 0, connection);
-                } catch (Exception ex) {
-                    Logger.getLogger(ServletListeStyle.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        String idStyle = request.getParameter("style");
+        Connection connection = ConnectionPs.connexionPostgreSQL();
+        try {
+            request.setAttribute("idstyle", idStyle);
+            request.setAttribute("nom", request.getParameter("nom"));
 
-                RequestDispatcher dispatcher = null;
-                dispatcher = request.getRequestDispatcher("index.jsp");
-                dispatcher.forward(request, response);
-            }
+            StyleMateriel[] stylemateriels = StyleMateriel.styleMateriels(idStyle, connection);
+            request.setAttribute("stylemateriels", stylemateriels);
 
-        } else {
-            Connection connection = ConnectionPs.connexionPostgreSQL();
-            try {
-                Materiel[] materiels = Materiel.materiel(connection);
-                request.setAttribute("Materilel", materiels);
-                RequestDispatcher dispatcher = null;
-                dispatcher = request.getRequestDispatcher("formMateriel.jsp");
-                dispatcher.forward(request, response);
-            } catch (Exception ex) {
-                Logger.getLogger(ServletFormStyleMateriel.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Categorie[] categories = Categorie.categorie(connection);
+            request.setAttribute("categories", categories);
+            Taille[] tailles = Taille.Taille(connection);
+            request.setAttribute("tailles", tailles);
+
+            RequestDispatcher dispatcher = null;
+            dispatcher = request.getRequestDispatcher("formule.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception e) {
         }
-
     }
 
     /**
@@ -106,23 +96,35 @@ public class ServletMateriel extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-        String nom = request.getParameter("nom");
-        Materiel materiel = new Materiel();
-        materiel.setNom(nom);
-        materiel.setEtat(1);
+        PrintWriter out = response.getWriter();
+        String idStyle = request.getParameter("style");
+
+        String categorie = request.getParameter("categorie");
+
+        String taille = request.getParameter("taille");
 
         Connection connection = ConnectionPs.connexionPostgreSQL();
-
         try {
-            Materiel.insertMateriel(materiel, connection);
-        } catch (Exception ex) {
-            Logger.getLogger(ServletCategorie.class.getName()).log(Level.SEVERE, null, ex);
+            Formule formule = new Formule();
+            formule.setIdcategorie(categorie);
+            formule.setIdtaille(taille);
+            out.print(categorie);
+            out.print(taille);
+            out.print(idStyle);
+            StyleMateriel[] stylemateriels = StyleMateriel.styleMateriels(idStyle, connection);
+            for (int i = 0; i < stylemateriels.length; i++) {
+                if (request.getParameter(stylemateriels[i].getIdStyleMateriel()) != null) {
+                    formule.setIdstylemateriel(stylemateriels[i].getIdStyleMateriel());
+                    formule.setQuantite(request.getParameter(stylemateriels[i].getIdStyleMateriel()));
+                    Formule.insertFormule(formule, connection);
+                }
+            }
+            RequestDispatcher dispatcher = null;
+            dispatcher = request.getRequestDispatcher("formule.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        RequestDispatcher dispatcher = null;
-        dispatcher = request.getRequestDispatcher("index.jsp");
-        dispatcher.forward(request, response);
     }
 
     /**
