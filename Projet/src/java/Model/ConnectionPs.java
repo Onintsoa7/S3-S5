@@ -17,7 +17,7 @@ import java.sql.Connection;
 public class ConnectionPs {
     public static Connection connexionPostgreSQL() {
         String user = "postgres";
-         String password = "2004";
+         String password = "1767";
         Connection connect = null;
         try {
             Class.forName("org.postgresql.Driver");
