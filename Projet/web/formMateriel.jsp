@@ -93,5 +93,37 @@
             </tbody>
         </table>
     </div>
+
+        <main role="main" class="main-content">
+
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <strong class="card-title">Formulaire matériels par style</strong>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="ServletPrixMateriel">
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-3 col-form-label">Style</label>
+                            <div class="col-sm-9">
+                                <select name="id"  id="id" class="form-control">
+                                    <% for (int i = 0; i < materiels.length; i++) {%>
+                                    <option value="<%=materiels[i].getIdMateriel()%>">
+                                        <%=materiels[i].getNom()%>
+                                    </option>
+                                    <%}%>
+                                </select>
+                                <label for="inputEmail3" class="col-sm-3 col-form-label">Prix</label>
+                                <div class="col-sm-9">
+                                    <input type="number" class="form-control" id="prix" name="prix" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <button type="submit" class="btn btn-primary">Valider</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </main> <!-- main -->
 </main> <!-- main -->
 <%@ include file="footer.jsp" %>

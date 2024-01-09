@@ -93,3 +93,52 @@ FROM
     JOIN materiel m ON sm.idmateriel = m.idmateriel
     JOIN taille t ON f.idtaille = t.idtaille
     JOIN categorie c ON f.idcategorie = c.idcategorie;
+
+
+create sequence seq_prix_materiel start with 1;
+create table prix_materiel(
+    id_prix_materiel varchar default 'prix_materiel'||nextval('seq_prix_materiel') primary key,
+    idmateriel varchar REFERENCES materiel(idmateriel),
+    prix_unitaire float
+);
+alter table prix_materiel add column date_achat DATE;
+
+
+create view detail as
+SELECT
+    f.idformule,
+    f.idstylemateriel,
+    vsm.style_nom,
+    t.nom AS taille_nom,
+    c.nom AS categorie_nom,
+    f.quantite,
+    m.idmateriel,
+    m.nom AS materiel_nom,
+    m.etat AS materiel_etat,
+    pm.prix_unitaire,
+    pm.date_achat
+FROM
+    formule f
+JOIN
+    view_style_materiel vsm ON f.idstylemateriel = vsm.idstylemateriel
+JOIN
+    taille t ON f.idtaille = t.idtaille
+JOIN
+    categorie c ON f.idcategorie = c.idcategorie
+JOIN
+    materiel m ON vsm.idmateriel = m.idmateriel
+LEFT JOIN
+    prix_materiel pm ON m.idmateriel = pm.idmateriel;
+
+
+create view cout as 
+SELECT
+    style_nom,
+    taille_nom,
+    categorie_nom,
+    SUM(prix_unitaire * quantite) AS total_price
+FROM
+    detail
+GROUP BY
+    style_nom, taille_nom, categorie_nom;
+
