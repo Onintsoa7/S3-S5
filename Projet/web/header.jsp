@@ -111,6 +111,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link pl-3" href="taille.jsp"><span class="ml-1 item-text">Insertion taille</span></a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="FormulaireTarification.jsp"><span class="ml-1 item-text">Formulaire Tarification</span></a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item w-100">

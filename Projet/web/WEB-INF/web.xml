@@ -44,6 +44,14 @@
         <servlet-name>ServletAfficheFinal</servlet-name>
         <servlet-class>Controller.ServletAfficheFinal</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletPrixMateriel</servlet-name>
+        <servlet-class>Controller.ServletPrixMateriel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletTarification</servlet-name>
+        <servlet-class>Controller.ServletTarification</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletLogin</servlet-name>
         <url-pattern>/ServletLogin</url-pattern>
@@ -87,6 +95,14 @@
     <servlet-mapping>
         <servlet-name>ServletAfficheFinal</servlet-name>
         <url-pattern>/ServletAfficheFinal</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletPrixMateriel</servlet-name>
+        <url-pattern>/ServletPrixMateriel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletTarification</servlet-name>
+        <url-pattern>/ServletTarification</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
