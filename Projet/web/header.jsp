@@ -13,7 +13,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <link rel="icon" href="favicon.ico">
-        <title>Tiny Dashboard - A Bootstrap Dashboard Template</title>
+        <title>MEUBLE</title>
         <!-- Simple bar CSS -->
         <link rel="stylesheet" href="css/simplebar.css">
         <!-- Fonts CSS -->
@@ -39,8 +39,8 @@
                 <button type="button" class="navbar-toggler text-muted mt-2 p-0 mr-3 collapseSidebar">
                     <i class="fe fe-menu navbar-toggler-icon"></i>
                 </button>
-                <form class="form-inline mr-auto searchform text-muted">
-                    <input class="form-control mr-sm-2 bg-transparent border-0 pl-4 text-muted" type="search" placeholder="Type something..." aria-label="Search">
+                <form class="form-inline mr-auto text-muted">
+                    <input class="form-control mr-sm-2 bg-transparent border-0 pl-4 text-muted" type="search" placeholder="Tapez ..." aria-label="Search">
                 </form>
                 <ul class="nav">
                     <li class="nav-item">
@@ -51,7 +51,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="avatar avatar-sm mt-2">
-                                <img src="./assets/avatars/face-1.jpg" alt="..." class="avatar-img rounded-circle">
+                                <img src="./assets/avatars/me.jpg" alt="..." class="avatar-img rounded-circle">
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">

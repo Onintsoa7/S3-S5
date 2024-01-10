@@ -12,7 +12,6 @@
     String nomStyle = (String) request.getAttribute("nom");
     Taille[] tailles = (Taille[]) request.getAttribute("tailles");
     StyleMateriel[] stylemateriels = (StyleMateriel[]) request.getAttribute("stylemateriels");
-    out.println(request.getAttribute("idstyle"));
 %>
 
 <main role="main" class="main-content">
@@ -66,7 +65,7 @@
 
                                                 <td><strong><%=stylemateriels[i].getMateriel().getNom()%></strong></td>
                                                 <td>
-                                                    <input type="number" class="form-control" id="<%=stylemateriels[i].getIdStyleMateriel()%>" name="<%=stylemateriels[i].getIdStyleMateriel()%>" placeholder="quantite">
+                                                    <input type="text" class="form-control" id="<%=stylemateriels[i].getIdStyleMateriel()%>" name="<%=stylemateriels[i].getIdStyleMateriel()%>" placeholder="Quantité">
                                                 </td>
 
                                             </tr>

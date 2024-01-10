@@ -79,9 +79,6 @@ public class Servletformule extends HttpServlet {
             Formule formule = new Formule();
             formule.setIdcategorie(categorie);
             formule.setIdtaille(taille);
-            out.print(categorie);
-            out.print(taille);
-            out.print(idStyle);
             StyleMateriel[] stylemateriels = StyleMateriel.styleMateriels(idStyle, connection);
             for (int i = 0; i < stylemateriels.length; i++) {
                 if (request.getParameter(stylemateriels[i].getIdStyleMateriel()) != null) {
@@ -91,7 +88,7 @@ public class Servletformule extends HttpServlet {
                 }
             }
             RequestDispatcher dispatcher = null;
-            dispatcher = request.getRequestDispatcher("formule.jsp");
+            dispatcher = request.getRequestDispatcher("index.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

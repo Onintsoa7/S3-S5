@@ -30,7 +30,7 @@
                                             <th><strong>Meuble</strong></th>
                                             <th><strong>Taille</strong></th>
                                             <th><strong>Style</strong></th>
-                                            <th><strong>Coutde fabrication</strong></th>
+                                            <th><strong>Cout de fabrication</strong></th>
                                         </tr>
                                     </thead>
                                     <tbody>             
