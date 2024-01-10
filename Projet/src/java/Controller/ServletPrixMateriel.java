@@ -10,11 +10,13 @@ import Model.Materiel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -75,9 +77,15 @@ public class ServletPrixMateriel extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Connection connection = ConnectionPs.connexionPostgreSQL();
-        float prix = Float.valueOf(request.getParameter("prix"));
+        String price = request.getParameter("prix");
         String id = request.getParameter("id");
-        Materiel materiel = new Materiel(id, prix);
+        Materiel materiel = new Materiel();
+        materiel.setIdMateriel(id);
+        try {
+            materiel.setPrix(price);
+        } catch (Exception ex) {
+            Logger.getLogger(ServletPrixMateriel.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             Materiel.insertPrixMateriel(materiel, connection);
 

@@ -25,11 +25,11 @@
                         <div class="form-group row">
                             <label for="inputEmail3" class="col-sm-3 col-form-label">Prix Minimum</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="min" name="min" placeholder="0">
+                                <input type="text" class="form-control" id="min" name="min" placeholder="0...">
                             </div>
                             <label for="inputEmail3" class="col-sm-3 col-form-label">Prix Maximum</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="max" name="max" placeholder="10000">
+                                <input type="text" class="form-control" id="max" name="max" placeholder="10000...">
                             </div>
                         </div>
                         <div class="form-group mb-2">

@@ -81,8 +81,9 @@ public class Formule {
     }
 
     public void setQuantite(String quantite) throws Exception {
+        Materiel.isFloat(quantite);
         if (Float.valueOf(quantite) < 0) {
-            throw new Exception("valeur quantite invalide");
+            throw new Exception("Valeur quantite invalide");
         }
         this.setQuantite(Float.valueOf(quantite));
     }
