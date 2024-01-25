@@ -82,6 +82,7 @@ public class ServletEmployer extends HttpServlet {
 
         Employer emp = new Employer();
         emp.setNom(nom);
+        emp.setPrenom(prenom);
         emp.setAdresse(adresse);
         emp.setContact(contact);
         emp.setDate_de_naissance(date);

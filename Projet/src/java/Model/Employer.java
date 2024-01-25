@@ -62,7 +62,7 @@ public class Employer extends Profil {
 
     public static Employer employerById(String id, Connection connection) throws Exception {
         String request = "";
-        request = "select * from employer_detail WHERE id_employer = ?";
+        request = "select * from v_employer_embauche WHERE id_employer = ?";
 
         boolean isOpen = false;
         Employer employer = null;
@@ -83,7 +83,7 @@ public class Employer extends Profil {
                         resultSet.getDate("date_de_naissance"),
                         resultSet.getString("adresse"),
                         resultSet.getString("contact"),
-                        resultSet.getInt("anciennete")
+                        resultSet.getInt("annee_travail")
                 );
             }
 

@@ -193,7 +193,7 @@ create table mouvement(
     id_materiel varchar references materiel(idmateriel),
     quantite_entree float default 0,
     quantite_sortie float default 0,
-    date_mouvement date not null
+    date_mouvement date default now()
 );
 
 --------------------------------------------------------------------------------------------------------------------------------------
@@ -357,6 +357,18 @@ FROM profil p
 JOIN salaire_profil pts ON p.id_profil = pts.id_profil
 ORDER BY p.id_profil, pts.date_salaire DESC;
 
+create view v_anciennete as
+SELECT 
+  id_embauche_employer,
+  id_employe,
+  id_poste,
+  karama,
+  date,
+  EXTRACT(YEAR FROM NOW()) - EXTRACT(YEAR FROM date) AS annee_travail
+FROM 
+  embauche_employer;
+
+
 create view v_employer_embauche as
 SELECT v.id_embauche_employer, v.id_employe, v.date, v.annee_travail, e.id_employer, e.nom, e.prenom, e.date_de_naissance, e.adresse, e.contact
 FROM v_anciennete v
@@ -377,3 +389,51 @@ create table client(
 );
 
 alter table client add column date_de_naissance date ;
+------------------------------------------------------------------------------------------------------------------------------------------
+create sequence seq_genre start with 1;
+create table genre(
+    id_genre varchar default ('genre'||nextval('seq_genre')) primary key,
+    nom varchar
+);
+alter table client add column id_genre varchar references genre(id_genre);
+
+create sequence seq_vente start with 1;
+create table vente(
+    id_vente varchar default ('vente'||nextval('seq_vente')) primary key,
+    id_client varchar references client(id_client),
+    montant float,
+    date_vente date
+);
+
+
+create sequence seq_vente_detail start with 1;
+create table vente_detail(
+    id_vente_detail varchar default ('vente_detail'||nextval('seq_vente_detail')) primary key,
+    id_vente varchar references vente(id_vente),
+    id_mere varchar references mere(idmere),
+    quantite float,
+    prix_unitaire float
+);
+
+
+
+create view v_client_detail_vente as 
+select vente_detail.*, vente.id_client,vente.montant,vente.date_vente,client.nom as nom_client,client.adresse,client.contact,client.date_de_naissance,
+client.id_genre,genre.nom as nom_genre
+from vente_detail 
+join vente
+on vente.id_vente = vente_detail.id_vente 
+join client 
+on client.id_client = vente.id_client
+join genre
+on genre.id_genre = client.id_genre;
+
+CREATE VIEW v_quantite_par_genre_et_mere AS
+SELECT
+  id_mere,
+  id_genre,
+  SUM(quantite) AS somme_quantite
+FROM
+  v_client_detail_vente
+GROUP BY
+  id_mere, id_genre;

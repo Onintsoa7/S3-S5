@@ -27,16 +27,19 @@ public class Client extends DAO{
     String contact;
     @Column (name = "date_de_naissance")
     Date date_de_naissance;
+    @Column (name = "id_genre")
+    String id_genre;
 
     public Client() {
     }
 
-    public Client(String nom, String adresse, String contact, Date date_de_naissance) {
+    public Client(String nom, String adresse, String contact, Date date_de_naissance, String id_genre) {
         //this.setId_client(id_client);
         this.setNom(nom);
         this.setAdresse(adresse);
         this.setContact(contact);
         this.setDate_de_naissance(date_de_naissance);
+        this.setId_genre(id_genre);
     }
 
 
@@ -44,6 +47,16 @@ public class Client extends DAO{
         return date_de_naissance;
     }
 
+    public String getId_genre() {
+        return id_genre;
+    }
+
+    public void setId_genre(String id_genre) {
+        this.id_genre = id_genre;
+    }
+
+    
+    
     public void setDate_de_naissance(Date date_de_naissance) {
         this.date_de_naissance = date_de_naissance;
     }

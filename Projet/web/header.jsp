@@ -111,6 +111,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link pl-3" href="ServletPoste"><span class="ml-1 item-text">Poste</span></a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="ServletGenre"><span class="ml-1 item-text">Genre</span></a>
+                                </li>
                             </ul>
                         </li>   
                         <li class="nav-item w-100">
@@ -133,6 +136,16 @@
                             <ul class="collapse list-unstyled pl-4 w-100" id="client">
                                 <li class="nav-item">
                                     <a class="nav-link pl-3" href="ServletClient"><span class="ml-1 item-text">Client</span></a>
+                                </li>
+                            </ul>
+                            <ul class="collapse list-unstyled pl-4 w-100" id="client">
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="ServletFacturation"><span class="ml-1 item-text">Facturation</span></a>
+                                </li>
+                            </ul>
+                            <ul class="collapse list-unstyled pl-4 w-100" id="client">
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="ServletFacturation?liste=1"><span class="ml-1 item-text">Facture</span></a>
                                 </li>
                             </ul>
                         </li>

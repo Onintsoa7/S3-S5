@@ -74,6 +74,25 @@
             </form>
         </div>
     </div>
+    <div class="card-body">
+        <!-- table -->
+        <table class="table datatables" id="dataTable-1">
+            <thead>
+                <tr>
+                    <th><strong>Categorie</strong></th>
+                </tr>
+            </thead>
+            <tbody>             
+                <% for (int i = 0; i < description.length; i++) {%>
+                <tr>
+                    <td><strong><%=description[i].getIdcategorie().getNom() + "-" + description[i].getIdstyle().getNom() + "(" + description[i].getIdtaille().getNom() + ")" %></strong></td>
+                    <td><a href="ServletChart?mere=<%=description[i].getIdmere()%>"><button class="btn mb-2 btn-outline-success"><span class="fe fe-24 fe-more-vertical"></span></button></a></td>
+                </tr>
+                <%    }
+                %>
+            </tbody>
+        </table>
+    </div>
 </main> 
 <%@include file="footer.jsp" %>
 
