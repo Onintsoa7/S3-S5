@@ -114,6 +114,8 @@
                             <%} %>
                         </select>
                     </div>
+                    </div>
+                <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-3 col-form-label">Fournisseur</label>
                     <div class="col-sm-3">
                         <select name="fournissuer"  id="fournissuer" class="form-control">
@@ -124,10 +126,14 @@
                             <%}%>
                         </select>
                     </div>
+                    </div>
+                <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-3 col-form-label">Quantite</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control" id="quantite" name="quantite" placeholder="0">
-                    </div>   
+                    </div>  
+                    </div>
+                <div class="form-group row"> 
                     <label for="inputEmail3" class="col-sm-3 col-form-label">Prix</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control" id="prix" name="prix" placeholder="0">
