@@ -67,9 +67,9 @@
                 <nav class="vertnav navbar navbar-light">
                     <!-- nav bar -->
                     <div class="w-100 mb-4 d-flex">
-                            <a class="nav-link" href="FormulaireTarification.jsp">
-                                <i class="fe fe-award fe-16" style="color: #03224C; font-size: 25px; ">ETU001767</i>
-                            </a>
+                        <a class="nav-link" href="FormulaireTarification.jsp">
+                            <i class="fe fe-award fe-16" style="color: #03224C; font-size: 25px; "></i>
+                        </a>
                     </div>
                     <p class="text-muted nav-heading mt-4 mb-1">
                         <span>Fonctionnalités</span>
@@ -81,12 +81,6 @@
                                 <span class="ml-3 item-text">NAVIGATION</span><span class="sr-only">(current)</span>
                             </a>
                             <ul class="collapse list-unstyled pl-4 w-100" id="dashboard">
-                                <!--<li class="nav-item">
-                                    <a class="nav-link pl-3" href="dashboard.jsp"><span class="ml-1 item-text">Analytics</span></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link pl-3" href="form.jsp"><span class="ml-1 item-text">Formulaire</span></a>
-                                </li>!-->
                                 <li class="nav-item">
                                     <a class="nav-link pl-3" href="formCategorie.jsp"><span class="ml-1 item-text">Categorie</span></a>
                                 </li>
@@ -103,17 +97,34 @@
                                     <a class="nav-link pl-3" href="ServletListeStyle"><span class="ml-1 item-text">Liste materiel et style</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link pl-3" href="taille.jsp"><span class="ml-1 item-text">Insertion taille</span></a>
+                                    <a class="nav-link pl-3" href="ServletTaille"><span class="ml-1 item-text">Taille</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="ServletProfil"><span class="ml-1 item-text">Profil</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="InsertionFournisseur.jsp"><span class="ml-1 item-text">Fournisseur</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="ServletEmployer"><span class="ml-1 item-text">Personnel</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="ServletPoste"><span class="ml-1 item-text">Poste</span></a>
                                 </li>
                             </ul>
                         </li>   
                         <li class="nav-item w-100">
                             <a class="nav-link" href="FormulaireTarification.jsp">
                                 <i class="fe fe-dollar-sign fe-16"></i>
-                                <span class="ml-3 item-text">Tarif de fabrication</span>
+                                <span class="ml-3 item-text">Tarifs</span>
+                            </a>
+                        </li>  
+                        <li class="nav-item w-100">
+                            <a class="nav-link" href="ServletFabrication">
+                                <i class="fe fe-box"></i>
+                                <span class="ml-3 item-text">Meuble</span>
                             </a>
                         </li>
-                       
                     </ul>
                 </nav>
             </aside>

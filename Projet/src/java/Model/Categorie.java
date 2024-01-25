@@ -69,6 +69,7 @@ public class Categorie {
             statement.setString(1, catego.getNom());
             statement.setInt(2, catego.getEtat());
             statement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
             //connection.rollback();
             e.printStackTrace();

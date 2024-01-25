@@ -6,8 +6,9 @@
 package Controller;
 
 import Model.ConnectionPs;
-import Model.Formule;
+import Model.Fournisseur;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -19,21 +20,18 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Chan Kenny
  */
-public class ServletAfficheFinal extends HttpServlet {
+public class ServletFournisseurs extends HttpServlet {
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String idMateriel = request.getParameter("materiel");
-        Connection connect = ConnectionPs.connexionPostgreSQL();
-        try {
-            Formule[] formule = Formule.compose_meuble(idMateriel, connect);
-            request.setAttribute("formule", formule);
-            RequestDispatcher dispatcher = null;
-            dispatcher = request.getRequestDispatcher("formulebyMateriel.jsp");
-            dispatcher.forward(request, response);
-
-        } catch (Exception e) {
-        }
 
     }
 
@@ -48,6 +46,19 @@ public class ServletAfficheFinal extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String nomFournisseur = request.getParameter("nom");
+        String adresse = request.getParameter("adresse");
+        String contact = request.getParameter("contact");
+        Fournisseur fourni = new Fournisseur(nomFournisseur, contact, adresse);
+        try {
+            Connection connection = ConnectionPs.connexionPostgreSQL();
+            Fournisseur.insertFournisseur(fourni, connection);
+
+            RequestDispatcher dispatcher = null;
+            dispatcher = request.getRequestDispatcher("index.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception e) {
+        }
 
     }
 

@@ -9,6 +9,9 @@ import Model.Categorie;
 import Model.ConnectionPs;
 import Model.Formule;
 import Model.Materiel;
+import static Model.Materiel.materiel;
+import Model.Mere;
+import Model.Style;
 import Model.StyleMateriel;
 import Model.Taille;
 import java.io.IOException;
@@ -25,6 +28,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Chan Kenny
  */
 public class Servletformule extends HttpServlet {
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -70,21 +74,32 @@ public class Servletformule extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         String idStyle = request.getParameter("style");
-        String categorie = request.getParameter("categorie");
-
-        String taille = request.getParameter("taille");
+        String idCategorie = request.getParameter("categorie");
+        String idTaille = request.getParameter("taille");
 
         Connection connection = ConnectionPs.connexionPostgreSQL();
         try {
-            Formule formule = new Formule();
-            formule.setIdcategorie(categorie);
-            formule.setIdtaille(taille);
+            Categorie categorie = new Categorie();
+            categorie.setIdCategorie(idCategorie);
+            Taille taille = new Taille();
+            taille.setIdTaille(idTaille);
+            Style style = new Style();
+            style.setIdStyle(idStyle);
+            Mere mere = new Mere();
+            mere.setIdcategorie(categorie);
+            mere.setIdstyle(style);
+            mere.setIdtaille(taille);
+            String id_mere = mere.insertMere(connection);
             StyleMateriel[] stylemateriels = StyleMateriel.styleMateriels(idStyle, connection);
             for (int i = 0; i < stylemateriels.length; i++) {
+                    Formule formule = new Formule();
                 if (request.getParameter(stylemateriels[i].getIdStyleMateriel()) != null) {
-                    formule.setIdstylemateriel(stylemateriels[i].getIdStyleMateriel());
+                    Materiel materiel = new Materiel();
+                    materiel.setIdMateriel(stylemateriels[i].getMateriel().getIdMateriel());
+                    formule.setIdmere(id_mere);
+                    formule.setMateriel(materiel);
                     formule.setQuantite(request.getParameter(stylemateriels[i].getIdStyleMateriel()));
-                    Formule.insertFormule(formule, connection);
+                    formule.insertFormule(connection);
                 }
             }
             RequestDispatcher dispatcher = null;

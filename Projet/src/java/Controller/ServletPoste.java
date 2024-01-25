@@ -5,26 +5,26 @@
  */
 package Controller;
 
-import Model.Categorie;
 import Model.ConnectionPs;
-import Model.Materiel;
-import Model.Taille;
+import Model.Employer;
+import Model.Poste;
+import Model.Profil;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
- * @author Chan Kenny
+ * @author user
  */
-public class ServletTaille extends HttpServlet {
+public class ServletPoste extends HttpServlet {
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -39,10 +39,11 @@ public class ServletTaille extends HttpServlet {
             throws ServletException, IOException {
         Connection connection = ConnectionPs.connexionPostgreSQL();
         try {
-            Taille[] tailles = Taille.Taille(connection);
-            request.setAttribute("tailles", tailles);
+            Poste[] poste = Poste.postes(connection);
+            connection.close();
+            request.setAttribute("postes", poste);
             RequestDispatcher dispatcher = null;
-            dispatcher = request.getRequestDispatcher("formTaille.jsp");
+            dispatcher = request.getRequestDispatcher("formPoste.jsp");
             dispatcher.forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ServletTaille.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,26 +61,15 @@ public class ServletTaille extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String type = request.getParameter("type");
         Connection connection = ConnectionPs.connexionPostgreSQL();
-        if (type.equalsIgnoreCase("1")) {
-            String nom = request.getParameter("nom");
-            Taille taille = new Taille();
-            taille.setNom(nom);
-            try {
-                Taille.insertTaille(taille, connection);
-                connection.close();
-            } catch (Exception ex) {
-
-            }
-        } else {
-            String nombre_ouvrier_str = request.getParameter("nombre_ouvrier");
-            try {
-                Taille.insert_taille_ouvrier_nombre(nombre_ouvrier_str, connection);
-                connection.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+        String nom = request.getParameter("nom");
+        Poste profil = new Poste();
+        profil.setNom(nom);
+        try {
+            profil.insert(connection);
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         RequestDispatcher dispatcher = null;
         dispatcher = request.getRequestDispatcher("index.jsp");

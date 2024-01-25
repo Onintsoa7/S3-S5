@@ -52,6 +52,30 @@
         <servlet-name>ServletTarification</servlet-name>
         <servlet-class>Controller.ServletTarification</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletFournisseurs</servlet-name>
+        <servlet-class>Controller.ServletFournisseurs</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletTravailOuvrier</servlet-name>
+        <servlet-class>Controller.ServletTravailOuvrier</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletProfil</servlet-name>
+        <servlet-class>Controller.ServletProfil</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletFabrication</servlet-name>
+        <servlet-class>Controller.ServletFabrication</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletEmployer</servlet-name>
+        <servlet-class>Controller.ServletEmployer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletPoste</servlet-name>
+        <servlet-class>Controller.ServletPoste</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletLogin</servlet-name>
         <url-pattern>/ServletLogin</url-pattern>
@@ -93,6 +117,10 @@
         <url-pattern>/Servletformule</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>ServletFournisseurs</servlet-name>
+        <url-pattern>/ServletFournisseurs</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ServletAfficheFinal</servlet-name>
         <url-pattern>/ServletAfficheFinal</url-pattern>
     </servlet-mapping>
@@ -103,6 +131,26 @@
     <servlet-mapping>
         <servlet-name>ServletTarification</servlet-name>
         <url-pattern>/ServletTarification</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletTravailOuvrier</servlet-name>
+        <url-pattern>/ServletTravailOuvrier</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletProfil</servlet-name>
+        <url-pattern>/ServletProfil</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletFabrication</servlet-name>
+        <url-pattern>/ServletFabrication</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletEmployer</servlet-name>
+        <url-pattern>/ServletEmployer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletPoste</servlet-name>
+        <url-pattern>/ServletPoste</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -37,10 +37,14 @@
                                         <%
                                             for (int i = 0; i < cout.length; i++) {%>
                                         <tr>
+                                            <%
+                                                if (cout != null) {
+                                            %>
                                             <td><strong><%= cout[i].getCategorie_nom() %></strong></td>
                                             <td><strong><%= cout[i].getTaille_nom()%></strong></td>
                                             <td><strong><%= cout[i].getStyle_nom()%></strong></td>
-                                            <td><strong><%= cout[i].getPrix_unitaire() + " AR"%></strong></td>
+                                            <td><strong><%= cout[i].getTotal_price() + " AR"%></strong></td>
+                                            <% } %>
                                         </tr>
                                         <%    }
                                         %>

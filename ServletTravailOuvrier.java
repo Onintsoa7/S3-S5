@@ -5,16 +5,16 @@
  */
 package Controller;
 
-import Model.Categorie;
 import Model.ConnectionPs;
 import Model.Materiel;
-import Model.Taille;
+import Model.Ouvrier;
+import Model.Style;
+import Model.Taille_Ouvrier;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,8 +24,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Chan Kenny
  */
-public class ServletTaille extends HttpServlet {
-
+public class ServletTravailOuvrier extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -37,16 +36,24 @@ public class ServletTaille extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        String idTaille = request.getParameter("taille");
         Connection connection = ConnectionPs.connexionPostgreSQL();
         try {
-            Taille[] tailles = Taille.Taille(connection);
-            request.setAttribute("tailles", tailles);
+            Style[] styles = Style.style(connection);
+            Ouvrier[] ouvriers = Ouvrier.ouvrier(connection);
+            Taille_Ouvrier taille_ouvrier = Taille_Ouvrier.taille_ouvriers(idTaille, connection)[0];
+            request.setAttribute("repetition", taille_ouvrier.getNombre());
+            request.setAttribute("ouvriers", ouvriers);
+            request.setAttribute("styles", styles);
+            request.setAttribute("idTaille",idTaille);
             RequestDispatcher dispatcher = null;
-            dispatcher = request.getRequestDispatcher("formTaille.jsp");
+            dispatcher = request.getRequestDispatcher("FormTravailOuvrier.jsp");
             dispatcher.forward(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(ServletTaille.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServletFormStyleMateriel.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     /**
@@ -60,30 +67,10 @@ public class ServletTaille extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String type = request.getParameter("type");
-        Connection connection = ConnectionPs.connexionPostgreSQL();
-        if (type.equalsIgnoreCase("1")) {
-            String nom = request.getParameter("nom");
-            Taille taille = new Taille();
-            taille.setNom(nom);
-            try {
-                Taille.insertTaille(taille, connection);
-                connection.close();
-            } catch (Exception ex) {
-
-            }
-        } else {
-            String nombre_ouvrier_str = request.getParameter("nombre_ouvrier");
-            try {
-                Taille.insert_taille_ouvrier_nombre(nombre_ouvrier_str, connection);
-                connection.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        RequestDispatcher dispatcher = null;
-        dispatcher = request.getRequestDispatcher("index.jsp");
-        dispatcher.forward(request, response);
+        String 
+        String id_style = request.getParameter("style");
+        String duree = request.getParameter("duree");
+        
     }
 
     /**

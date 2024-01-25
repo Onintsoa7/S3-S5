@@ -5,26 +5,22 @@
  */
 package Controller;
 
-import Model.ConnectionPs;
-import Model.Materiel;
-import Model.Mouvement;
+import Model.Cout;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
  * @author Chan Kenny
  */
-public class ServletPrixMateriel extends HttpServlet {
+public class ServletBenefice extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +39,10 @@ public class ServletPrixMateriel extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ServletPrixMateriel</title>");
+            out.println("<title>Servlet ServletBenefice</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ServletPrixMateriel at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ServletBenefice at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,7 +60,7 @@ public class ServletPrixMateriel extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
     }
 
     /**
@@ -78,37 +74,28 @@ public class ServletPrixMateriel extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Connection connection = ConnectionPs.connexionPostgreSQL();
-        String price = request.getParameter("prix");
-        String id = request.getParameter("materiel");
-        String idfournisseur = request.getParameter("fournissuer");
-        String quantite = request.getParameter("quantite");
-        Materiel materiel = new Materiel();
-        materiel.setIdMateriel(id);
-        materiel.setIdFournisseurs(idfournisseur);
-        try {
-            
-            materiel.setQuantite(quantite);
-            materiel.setPrix(price);
-        } catch (Exception ex) {
-            Logger.getLogger(ServletPrixMateriel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            Mouvement mouvement = new Mouvement();
-            mouvement.setId_materiel(materiel.getIdMateriel());
-            mouvement.setQuantite_entree(materiel.getQuantite());
-            mouvement.setQuantite_sortie(0);
-            mouvement.insererMouvement(connection);
-            
-            Materiel.insertPrixMateriel(materiel, connection);
-            connection.commit();
-            connection.close();
-        } catch (Exception e) {
-        }
+                String mini = request.getParameter("min");
+        String maxi = request.getParameter("max");
         RequestDispatcher dispatcher = null;
-        dispatcher = request.getRequestDispatcher("index.jsp");
-        dispatcher.forward(request, response);
+        if (mini.isEmpty() && maxi.isEmpty()) {
+            dispatcher = request.getRequestDispatcher("Benefice.jsp");
+            dispatcher.forward(request, response);
+        } else if (mini.isEmpty() && !maxi.isEmpty()) {
+            mini = "0";
+        } else if (!mini.isEmpty() && maxi.isEmpty()) {
+            maxi = "50000000000000000";
+        }
+        float min = Float.valueOf(mini);
+        float max = Float.valueOf(maxi);
 
+        try {
+            Cout[] tab = Cout.tarification(max, min, null);
+            request.setAttribute("Couts", tab);
+            dispatcher = request.getRequestDispatcher("TableauBenefice.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ServletTarification.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

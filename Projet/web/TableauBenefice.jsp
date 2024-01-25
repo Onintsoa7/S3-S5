@@ -1,6 +1,6 @@
 <%-- 
-    Document   : formulebyMateriel
-    Created on : 19 déc. 2023, 20:26:28
+    Document   : TableauResultatTarifaire
+    Created on : 9 janv. 2024, 14:23:24
     Author     : Chan Kenny
 --%>
 
@@ -8,14 +8,16 @@
 <%@ include file="header.jsp" %>
 
 <%@page import="Model.*" %>
-<% Formule[] formules = (Formule[]) request.getAttribute("formule");
+<%
+    Cout[] cout = (Cout[]) request.getAttribute("Couts");
+    
 %>
 
 <main role="main" class="main-content">
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-12">
-                <h2 class="mb-2 page-title">LISTE MEUBLE POUR LE MATERIEL <%= formules[0].getMateriel().getNom()%></h2>
+                <h2 class="mb-2 page-title">Liste des meubles avec bénéfice dans la fourchette de valeur</h2>
                 <div class="row my-4">
                     <!-- Small table -->
                     <div class="col-md-12">
@@ -25,30 +27,31 @@
                                 <table class="table datatables" id="dataTable-1">
                                     <thead>
                                         <tr>
-                                            <th><strong>CATEGORIE</strong></th>
-                                            <th><strong>STYLE</strong></th>
-                                            <th><strong>TAILLE</strong></th>
-                                            <th><strong>QUANTITE</strong></th>                                            
-
+                                            <th><strong>Meuble</strong></th>
+                                            <th><strong>Taille</strong></th>
+                                            <th><strong>Style</strong></th>
+                                            <th><strong>Benefice</strong></th>
                                         </tr>
                                     </thead>
                                     <tbody>             
                                         <%
-                                                for (int i = 0; i < formules.length; i++) {%>
+                                            for (int i = 0; i < cout.length; i++) {%>
                                         <tr>
-
-                                            <td><strong><%=formules[i].getIdcategorie().getNom()%></strong></td>
-                                            <td><strong><%=formules[i].getIdstyle().getNom()%></strong></td>
-                                            <td><strong><%=formules[i].getIdtaille().getNom()%></strong></td>
-                                            <td><strong><%=formules[i].getQuantite()%></strong></td>
-
+                                            <%
+                                                if (cout != null) {
+                                            %>
+                                            <td><strong><%= cout[i].getCategorie_nom() %></strong></td>
+                                            <td><strong><%= cout[i].getTaille_nom()%></strong></td>
+                                            <td><strong><%= cout[i].getStyle_nom()%></strong></td>
+                                            <td><strong><%= cout[i].getTotal_price() + " AR"%></strong></td>
+                                            <% } %>
                                         </tr>
                                         <%    }
                                         %>
                                     </tbody>
                                 </table>
                             </div>
-                            <a href="index.jsp"><button class="btn btn-primary">Retour</button></a>
+                            <a href="ServletListeStyle"><button class="btn btn-primary">Retour</button></a>
                         </div>
                     </div> <!-- simple table -->
                 </div> <!-- end section -->
@@ -57,8 +60,5 @@
     </div> <!-- .container-fluid -->
 
 </main> <!-- main -->
-
-
-
 
 <%@ include file="footer.jsp" %>
