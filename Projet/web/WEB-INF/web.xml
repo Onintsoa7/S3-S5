@@ -80,6 +80,18 @@
         <servlet-name>ServletClient</servlet-name>
         <servlet-class>Controller.ServletClient</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletFacturation</servlet-name>
+        <servlet-class>Controller.ServletFacturation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletChart</servlet-name>
+        <servlet-class>Controller.ServletChart</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletGenre</servlet-name>
+        <servlet-class>Controller.ServletGenre</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletLogin</servlet-name>
         <url-pattern>/ServletLogin</url-pattern>
@@ -159,6 +171,18 @@
     <servlet-mapping>
         <servlet-name>ServletClient</servlet-name>
         <url-pattern>/ServletClient</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletFacturation</servlet-name>
+        <url-pattern>/ServletFacturation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletChart</servlet-name>
+        <url-pattern>/ServletChart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletGenre</servlet-name>
+        <url-pattern>/ServletGenre</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

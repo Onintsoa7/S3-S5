@@ -32,6 +32,7 @@
 <%@ include file="header.jsp" %>
 
 <% Client[] clients = (Client[]) request.getAttribute("clients");
+Genre[] genres = (Genre[]) request.getAttribute("genres");
 %>
 <main role="main" class="main-content">
 
@@ -63,6 +64,18 @@
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Date de naissance</label>
                     <div class="col-sm-9">
                         <input class="form-control" type="date" name="date" id="date">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Genre</label>
+                    <div class="col-sm-3">
+                        <select name="genre"  id="genre" class="form-control">
+                            <% for (int i = 0; i < genres.length; i++) {%>
+                            <option value="<%=genres[i].getId_genre()%>">
+                                <%= genres[i].getNom() %>
+                            </option>
+                            <%}%>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group mb-2">

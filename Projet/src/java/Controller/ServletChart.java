@@ -6,27 +6,21 @@
 package Controller;
 
 import Model.Client;
-import Model.ConnectionPs;
 import Model.Genre;
-import Model.Style;
-import static Model.Style.style;
+import Model.V_detail_client_vente;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.Connection;
-import java.sql.Date;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author user
  */
-public class ServletClient extends HttpServlet {
+public class ServletChart extends HttpServlet {
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -39,27 +33,23 @@ public class ServletClient extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Client client = new Client();
-        Genre genre = new Genre();
-        Vector<Client> liste_c = new Vector();
-        Vector<Genre> liste_g = new Vector();
-        Client[] clients = null;
-        Genre[] genres = null;
-        try {
-            liste_g = genre.select(null);
-            liste_c = client.select(null);
-            clients = liste_c.toArray(new Client[liste_c.size()]);
-            genres = liste_g.toArray(new Genre[liste_g.size()]);
+        String id_mere = request.getParameter("mere");
+        V_detail_client_vente v_detail_client_vente = new V_detail_client_vente();
+        v_detail_client_vente.setId_mere(id_mere);
 
-            request.setAttribute("genres", genres);
-            request.setAttribute("clients", clients);
+        Vector<V_detail_client_vente> liste_c = new Vector();
+        V_detail_client_vente[] genres = null;
+        try {
+
+            liste_c = v_detail_client_vente.select(null);
+            genres = liste_c.toArray(new V_detail_client_vente[liste_c.size()]);
+            request.setAttribute("details", genres);
             RequestDispatcher dispatcher = null;
-            dispatcher = request.getRequestDispatcher("formClient.jsp");
+            dispatcher = request.getRequestDispatcher("Graphe.jsp");
             dispatcher.forward(request, response);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
     }
 
     /**
@@ -73,25 +63,7 @@ public class ServletClient extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String nom = request.getParameter("nom");
-        String adresse = request.getParameter("adresse");
-        String contact = request.getParameter("contact");
-        String genre = request.getParameter("genre");
-        Date date = Date.valueOf(request.getParameter("date"));
-        Client client = new Client(nom, adresse, contact, date, genre);
-
-        Connection connection = ConnectionPs.connexionPostgreSQL();
-
-        try {
-            client.insert(null);
-        } catch (Exception ex) {
-            Logger.getLogger(ServletCategorie.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        RequestDispatcher dispatcher = null;
-        dispatcher = request.getRequestDispatcher("index.jsp");
-        dispatcher.forward(request, response);
-
+        //processRequest(request, response);
     }
 
     /**

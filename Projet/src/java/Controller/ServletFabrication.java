@@ -65,51 +65,6 @@ public class ServletFabrication extends HttpServlet {
             throws ServletException, IOException {
         String type = request.getParameter("type");
         Connection connection = ConnectionPs.connexionPostgreSQL();
-        /*PrintWriter out = response.getWriter();
-        String idmere = request.getParameter("description");
-        String quantite = request.getParameter("quantite");
-        Fabrication fabrication = new Fabrication();
-        try {
-            Formule[] meuble_materiel = Formule.get_materiel_et_quantite_par_meuble(idmere, null);
-            Materiel[] materiels = new Materiel[meuble_materiel.length];
-            Connection connection = ConnectionPs.connexionPostgreSQL();
-            fabrication.setQuantite(quantite);
-            fabrication.setIdmere(idmere);
-            Mouvement mouvement = new Mouvement();
-            for (int i = 0; i < meuble_materiel.length; i++) {
-                Materiel materiel = new Materiel();
-                materiel.setIdMateriel(meuble_materiel[i].getMateriel().getIdMateriel());
-                Materiel[] materiels_reste = materiel.verifyStock(null);
-                Materiel materie = mouvement.mouvement(materiels, meuble_materiel[i]);
-                materiels[i] = materie;
-            }
-            int isa = 0;
-            for (int i = 0; i < materiels.length; i++) {
-                if(materiels[i].getReste() < 0){
-                    isa ++;
-                }
-            }
-            if(isa > 0){
-            Materiel[] insuffisants = new Materiel[isa];
-            for (int i = 0; i < materiels.length; i++) {
-                int a = 0;
-                if(materiels[i].getReste() < 0){
-                    insuffisants[a] = materiels[i];
-                    out.println(insuffisants[a].getNom() + " manque : " + (insuffisants[a].getReste())*-1);
-                    a++;
-                }
-            }
-            }
-            RequestDispatcher dispatcher = request.getRequestDispatcher("TableauResultatTarifaire.jsp");
-            dispatcher.forward(request, response);
-            connection.close();
-        } catch (Exception ex) {
-            Logger.getLogger(ServletFabrication.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        RequestDispatcher dispatcher = null;
-        dispatcher = request.getRequestDispatcher("index.jsp");
-        dispatcher.forward(request, response);*/
-
         try (PrintWriter out = response.getWriter()) {
             if (type.equalsIgnoreCase("1")) {
                 String id_mere = request.getParameter("id_mere");

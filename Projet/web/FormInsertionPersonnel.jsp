@@ -40,7 +40,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header">
-            <strong class="card-title">Formulaire Fournisseur</strong>
+            <strong class="card-title">Formulaire personnel</strong>
         </div>
         <div class="card-body">
             <form method="post" action="ServletEmployer">

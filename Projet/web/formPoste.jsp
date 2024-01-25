@@ -35,15 +35,14 @@
 <% Poste[] postes = (Poste[]) request.getAttribute("postes");
 %>
 <main role="main" class="main-content">
-
     <div class="card shadow mb-4">
         <div class="card-header">
-            <strong class="card-title">Formulaire Style</strong>
+            <strong class="card-title">Formulaire poste</strong>
         </div>
         <div class="card-body">
             <form method="post" action="ServletPoste">
                 <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-3 col-form-label">nom</label>
+                    <label for="inputEmail3" class="col-sm-3 col-form-label">Poste</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" id="nom" name="nom" placeholder="nom">
                     </div>
