@@ -17,10 +17,13 @@
 <main role="main" class="main-content">
     <form action="Servletformule" method="post">
         <div class="container-fluid">
+        <div class="card-header">
+            <h2><strong class="card-title">Style <%=nomStyle%></strong></h2>
+        </div>
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-3 col-form-label">Style</label>
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">Categorie de meuble</label>
                         <div class="col-sm-9">
                             <select name="categorie"  id="categorie" class="form-control">
                                 <% for (int i = 0; i < categories.length; i++) {%>
@@ -33,7 +36,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-3 col-form-label">Style</label>
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">Taille</label>
                         <div class="col-sm-9">
                             <select name="taille"  id="taille" class="form-control">
                                 <% for (int i = 0; i < tailles.length; i++) {%>

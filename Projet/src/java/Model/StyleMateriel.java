@@ -72,6 +72,7 @@ public class StyleMateriel {
             statement.setString(1, stylemateriel.getStyle().getIdStyle());
             statement.setString(2, stylemateriel.getMateriel().getIdMateriel());
             statement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
             //connection.rollback();
             e.printStackTrace();

@@ -7,13 +7,14 @@ package Controller;
 
 import Model.ConnectionPs;
 import Model.Materiel;
-import Model.Mouvement;
+import Model.Ouvrier;
+import Model.Style;
+import Model.Taille_Ouvrier;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +24,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Chan Kenny
  */
-public class ServletPrixMateriel extends HttpServlet {
+public class ServletTravailOuvrier extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -35,6 +36,23 @@ public class ServletPrixMateriel extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        String idTaille = request.getParameter("taille");
+        Connection connection = ConnectionPs.connexionPostgreSQL();
+        try {
+            Style[] styles = Style.style(connection);
+            Ouvrier[] ouvriers = Ouvrier.ouvrier(connection);
+            Taille_Ouvrier taille_ouvrier = Taille_Ouvrier.taille_ouvriers(idTaille, connection)[0];
+            request.setAttribute("repetition", taille_ouvrier.getNombre());
+            request.setAttribute("ouvriers", ouvriers);
+            request.setAttribute("styles", styles);
+            request.setAttribute("idTaille",idTaille);
+            RequestDispatcher dispatcher = null;
+            dispatcher = request.getRequestDispatcher("FormTravailOuvrier.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ServletFormStyleMateriel.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -49,37 +67,10 @@ public class ServletPrixMateriel extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Connection connection = ConnectionPs.connexionPostgreSQL();
-        String price = request.getParameter("prix");
-        String id = request.getParameter("materiel");
-        String idfournisseur = request.getParameter("fournissuer");
-        String quantite = request.getParameter("quantite");
-        Materiel materiel = new Materiel();
-        materiel.setIdMateriel(id);
-        materiel.setIdFournisseurs(idfournisseur);
-        try {
-            
-            materiel.setQuantite(quantite);
-            materiel.setPrix(price);
-        } catch (Exception ex) {
-            Logger.getLogger(ServletPrixMateriel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            Mouvement mouvement = new Mouvement();
-            mouvement.setId_materiel(materiel.getIdMateriel());
-            mouvement.setQuantite_entree(materiel.getQuantite());
-            mouvement.setQuantite_sortie(0);
-            mouvement.insererMouvement(connection);
-            
-            Materiel.insertPrixMateriel(materiel, connection);
-            connection.commit();
-            connection.close();
-        } catch (Exception e) {
-        }
-        RequestDispatcher dispatcher = null;
-        dispatcher = request.getRequestDispatcher("index.jsp");
-        dispatcher.forward(request, response);
-
+        String 
+        String id_style = request.getParameter("style");
+        String duree = request.getParameter("duree");
+        
     }
 
     /**

@@ -19,10 +19,17 @@ import java.util.ArrayList;
 public class Taille {
     String idTaille;
     String nom;
+    Float niveau;
 
     public Taille(String idTaille, String nom) {
         this.idTaille = idTaille;
         this.nom = nom;
+    }
+
+    public Taille(String idTaille, String nom, Float niveau) {
+        this.idTaille = idTaille;
+        this.nom = nom;
+        this.niveau = niveau;
     }
 
     public Taille() {
@@ -59,8 +66,9 @@ public class Taille {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, Taille.getNom());
             statement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
-            //connection.rollback();
+            connection.rollback();
             e.printStackTrace();
         } finally {
             if (IsOpen == false) {
@@ -69,6 +77,67 @@ public class Taille {
         }
     }
 
+    public static void insert_taille_ouvrier_nombre(String nombre_str, Connection connection) throws Exception {
+        boolean IsOpen = false;
+        if (connection == null) {
+            connection = ConnectionPs.connexionPostgreSQL();
+        } else {
+            IsOpen = true;
+        }
+        try {
+            ConnectionPs.isFloat(nombre_str);
+            ConnectionPs.isNotEmpty(nombre_str);
+            ConnectionPs.isNotNegative(nombre_str);
+            Float nombre = Float.valueOf(nombre_str);
+            String sql = "INSERT INTO taille_profil (nombre, date) VALUES (?, now())";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setFloat(1, nombre);
+            statement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            e.printStackTrace();
+        } finally {
+            if (IsOpen == false) {
+                connection.close();
+            }
+        }
+    }
+
+    
+    public Taille taille_by_id(Connection connection) throws Exception {
+    String request = "select * from Taille where idtaille = ?";
+    boolean isOpen = false;
+    Taille taille = new Taille();
+    try {
+        if (connection == null) {
+            connection = ConnectionPs.connexionPostgreSQL();
+        } else {
+            isOpen = true;
+        }
+        System.out.println(request);
+        PreparedStatement statement = connection.prepareStatement(request);
+        statement.setString(1, this.getIdTaille());
+        ResultSet resultSet = statement.executeQuery();  // Fix this line, remove 'request' parameter
+        if (resultSet.next()) {
+            taille = new Taille(
+                    resultSet.getString("idTaille"),
+                    resultSet.getString("nom"),
+                    resultSet.getFloat("niveau"));
+        }
+        System.out.println("OUTED");
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        if (!isOpen) {
+            connection.close();
+        }
+    }
+    return taille;
+}
+
+    
+    
     public static Taille[] Taille(Connection connection) throws Exception {
         String request = "";
         request = "select * from Taille ";
@@ -106,5 +175,14 @@ public class Taille {
         return Taille_tableau;
     }
 
+    public Float getNiveau() {
+        return niveau;
+    }
+
+    public void setNiveau(Float niveau) {
+        this.niveau = niveau;
+    }
+    
+    
     
 }

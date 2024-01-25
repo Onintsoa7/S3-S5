@@ -7,6 +7,7 @@ package Controller;
 
 import Model.Categorie;
 import Model.ConnectionPs;
+import Model.Fournisseur;
 import Model.Materiel;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,34 +25,6 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Chan Kenny
  */
 public class ServletMateriel extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletMateriel</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServletMateriel at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -84,7 +57,9 @@ public class ServletMateriel extends HttpServlet {
             Connection connection = ConnectionPs.connexionPostgreSQL();
             try {
                 Materiel[] materiels = Materiel.materiel(connection);
-                request.setAttribute("Materilel", materiels);
+                Fournisseur[] fournisseurs = Fournisseur.fournisseurs(connection);
+                request.setAttribute("Materiel", materiels);
+                request.setAttribute("Fournisseur", fournisseurs);
                 RequestDispatcher dispatcher = null;
                 dispatcher = request.getRequestDispatcher("formMateriel.jsp");
                 dispatcher.forward(request, response);

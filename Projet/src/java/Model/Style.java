@@ -75,6 +75,7 @@ public class Style {
             statement.setString(1, style.getNom());
             statement.setInt(2, style.getEtat());
             statement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
             //connection.rollback();
             e.printStackTrace();
@@ -89,6 +90,7 @@ public class Style {
         boolean IsOpen = false;
         if (connection == null) {
             connection = ConnectionPs.connexionPostgreSQL();
+            connection.setAutoCommit(false);
         } else {
             IsOpen = true;
         }
@@ -97,6 +99,7 @@ public class Style {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, idStyle);
             statement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
             //connection.rollback();
             e.printStackTrace();
@@ -162,6 +165,7 @@ public class Style {
             statement.setInt(1, etat);
             statement.setString(2, idstyle);
             resultat = statement.executeUpdate();
+            connection.commit();
 
         } catch (Exception e) {
             System.out.println(e);

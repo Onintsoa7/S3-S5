@@ -27,33 +27,6 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ServletTaille extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletTaille</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServletTaille at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
      * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
@@ -64,16 +37,16 @@ public class ServletTaille extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                    Connection connection = ConnectionPs.connexionPostgreSQL();
-            try {
-                Taille[] tailles = Taille.Taille(connection);
-                request.setAttribute("tailles", tailles);
-                RequestDispatcher dispatcher = null;
-                dispatcher = request.getRequestDispatcher("taille.jsp");
-                dispatcher.forward(request, response);
-            } catch (Exception ex) {
-                Logger.getLogger(ServletTaille.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        Connection connection = ConnectionPs.connexionPostgreSQL();
+        try {
+            Taille[] tailles = Taille.Taille(connection);
+            request.setAttribute("tailles", tailles);
+            RequestDispatcher dispatcher = null;
+            dispatcher = request.getRequestDispatcher("formTaille.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ServletTaille.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -87,17 +60,27 @@ public class ServletTaille extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String nom = request.getParameter("nom");
-        Taille taille = new Taille();
-        taille.setNom(nom);
-
+        String type = request.getParameter("type");
         Connection connection = ConnectionPs.connexionPostgreSQL();
-        try {
-            Taille.insertTaille(taille, connection);
-        } catch (Exception ex) {
-            
-        }
+        if (type.equalsIgnoreCase("1")) {
+            String nom = request.getParameter("nom");
+            Taille taille = new Taille();
+            taille.setNom(nom);
+            try {
+                Taille.insertTaille(taille, connection);
+                connection.close();
+            } catch (Exception ex) {
 
+            }
+        } else {
+            String nombre_ouvrier_str = request.getParameter("nombre_ouvrier");
+            try {
+                Taille.insert_taille_ouvrier_nombre(nombre_ouvrier_str, connection);
+                connection.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
         RequestDispatcher dispatcher = null;
         dispatcher = request.getRequestDispatcher("index.jsp");
         dispatcher.forward(request, response);

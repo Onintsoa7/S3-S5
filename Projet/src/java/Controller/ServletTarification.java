@@ -22,8 +22,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Chan Kenny
  */
 public class ServletTarification extends HttpServlet {
-   
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -48,21 +47,44 @@ public class ServletTarification extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String mini = request.getParameter("min");
-        String maxi = request.getParameter("min");
-        float min = Float.valueOf(request.getParameter("min"));
-        float max =  Float.valueOf(request.getParameter("max"));
-        
-                RequestDispatcher dispatcher = null;
-        try {
+        String type = request.getParameter("type");
+        if (type.equalsIgnoreCase("1")) {
+            String mini = request.getParameter("min");
+            String maxi = request.getParameter("max");
+            RequestDispatcher dispatcher = null;
+            if (mini.isEmpty() && maxi.isEmpty()) {
+                dispatcher = request.getRequestDispatcher("FormulaireTarification.jsp");
+                dispatcher.forward(request, response);
+            } else if (mini.isEmpty() && !maxi.isEmpty()) {
+                mini = "0";
+            } else if (!mini.isEmpty() && maxi.isEmpty()) {
+                maxi = "50000000000000000";
+            }
+            float min = Float.valueOf(mini);
+            float max = Float.valueOf(maxi);
+
+            try {
                 Cout[] tab = Cout.tarification(max, min, null);
                 request.setAttribute("Couts", tab);
                 dispatcher = request.getRequestDispatcher("TableauResultatTarifaire.jsp");
                 dispatcher.forward(request, response);
-        } catch (Exception ex) {
-            Logger.getLogger(ServletTarification.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(ServletTarification.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            String mini = request.getParameter("min");
+            String maxi = request.getParameter("max");
+            RequestDispatcher dispatcher = null;
+            try {
+                Cout cout = new Cout();
+                Cout[] tab = cout.benefice_entre_2(mini, maxi, null);
+                request.setAttribute("Couts", tab);
+                dispatcher = request.getRequestDispatcher("TableauBenefice.jsp");
+                dispatcher.forward(request, response);
+            } catch (Exception ex) {
+                Logger.getLogger(ServletTarification.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
     }
 
     /**

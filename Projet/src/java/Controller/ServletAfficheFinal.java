@@ -8,7 +8,6 @@ package Controller;
 import Model.ConnectionPs;
 import Model.Formule;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -27,14 +26,8 @@ public class ServletAfficheFinal extends HttpServlet {
         String idMateriel = request.getParameter("materiel");
         Connection connect = ConnectionPs.connexionPostgreSQL();
         try {
-            Formule[] formule = Formule.formuleAffiche(idMateriel, connect);
+            Formule[] formule = Formule.compose_meuble(idMateriel, connect);
             request.setAttribute("formule", formule);
-            String nomMateriel = "";
-            if (formule.length>0) {
-                nomMateriel = formule[0].getIdcategorie();
-            }
-            request.setAttribute("nom",nomMateriel);
-            
             RequestDispatcher dispatcher = null;
             dispatcher = request.getRequestDispatcher("formulebyMateriel.jsp");
             dispatcher.forward(request, response);

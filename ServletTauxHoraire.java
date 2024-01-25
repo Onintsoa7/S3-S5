@@ -6,8 +6,8 @@
 package Controller;
 
 import Model.ConnectionPs;
-import Model.Materiel;
-import Model.Mouvement;
+import Model.Ouvrier;
+import Model.Style;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -23,7 +23,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Chan Kenny
  */
-public class ServletPrixMateriel extends HttpServlet {
+public class ServletTauxHoraire extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -35,7 +35,20 @@ public class ServletPrixMateriel extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+                String idTaille = request.getParameter("taille");
+        Connection connection = ConnectionPs.connexionPostgreSQL();
+        try {
+            request.setAttribute("idTaille",idTaille);
+            
+            Style[] styles = Style.style(connection);
+            
+            request.setAttribute("style", styles);
+            RequestDispatcher dispatcher = null;
+            dispatcher = request.getRequestDispatcher("FormTauxHoraire.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ServletFormStyleMateriel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -49,37 +62,22 @@ public class ServletPrixMateriel extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String idOuvrier = request.getParameter("ouvrier");
+        Ouvrier jean = new Ouvrier(idOuvrier, idOuvrier);
+        float valeur =  Float.valueOf(request.getParameter("valeur"));
         Connection connection = ConnectionPs.connexionPostgreSQL();
-        String price = request.getParameter("prix");
-        String id = request.getParameter("materiel");
-        String idfournisseur = request.getParameter("fournissuer");
-        String quantite = request.getParameter("quantite");
-        Materiel materiel = new Materiel();
-        materiel.setIdMateriel(id);
-        materiel.setIdFournisseurs(idfournisseur);
         try {
+            Salaire_Ouvrier salOuv= new Salaire_Ouvrier(idOuvrier,valeur);
+            salOuv.setOuvrier(jean);
+            salOuv.insert(connection);
             
-            materiel.setQuantite(quantite);
-            materiel.setPrix(price);
-        } catch (Exception ex) {
-            Logger.getLogger(ServletPrixMateriel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            Mouvement mouvement = new Mouvement();
-            mouvement.setId_materiel(materiel.getIdMateriel());
-            mouvement.setQuantite_entree(materiel.getQuantite());
-            mouvement.setQuantite_sortie(0);
-            mouvement.insererMouvement(connection);
-            
-            Materiel.insertPrixMateriel(materiel, connection);
-            connection.commit();
-            connection.close();
+            RequestDispatcher dispatcher = null;
+            dispatcher = request.getRequestDispatcher("index.jsp");
+            dispatcher.forward(request, response);
         } catch (Exception e) {
+            Logger.getLogger(ServletFormStyleMateriel.class.getName()).log(Level.SEVERE, null, e);
         }
-        RequestDispatcher dispatcher = null;
-        dispatcher = request.getRequestDispatcher("index.jsp");
-        dispatcher.forward(request, response);
-
     }
 
     /**

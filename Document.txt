@@ -1,0 +1,8 @@
+Document de conception
+MCD, liste classe
+Fonctionnalités spécifiques
+Liste de taches nomena
+NOTE
+-Relationnelle
+-Technique
+-Comportement par rapport au stress

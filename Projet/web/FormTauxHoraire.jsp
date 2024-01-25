@@ -1,9 +1,11 @@
 <%-- 
-    Document   : taille.jsp
-    Created on : 19 déc. 2023, 14:58:05
+    Document   : InsertionFournissuer
+    Created on : 11 janv. 2024, 14:44:08
     Author     : Chan Kenny
 --%>
 
+
+<%@page import="Model.Ouvrier"%>
 <style>
     /* Style pour masquer la fenêtre modale par défaut */
     .modal {
@@ -28,25 +30,37 @@
         text-align: center;
     }
 </style>
-
+<%
+    Ouvrier[] ouvriers = (Ouvrier[]) request.getAttribute("ouvriers");
+%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="header.jsp" %>
-<%@page import="Model.*" %>
-<% Taille[] taille = (Taille[]) request.getAttribute("tailles");
-%>
+
 <main role="main" class="main-content">
 
     <div class="card shadow mb-4">
         <div class="card-header">
-            <strong class="card-title">Formulaire Categorie</strong>
+            <strong class="card-title">Formulaire Taux horaire Ouvrier</strong>
         </div>
         <div class="card-body">
-            <form method="post" action="ServletTaille">
+            <form method="post" action="ServletTauxHoraire">
                 <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-3 col-form-label">Nom de la categorie</label>
+                    <label for="inputEmail3" class="col-sm-3 col-form-label">Ouvrier</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="nom" name="nom" placeholder="nom">
+                        <select name="ouvrier"  id="ouvrier" class="form-control">
+                            <% for (int i = 0; i < ouvriers.length; i++) {%>
+                            <option value="<%=ouvriers[i].getId_ouvrier() %>">
+                                <%=ouvriers[i].getNom()%>
+                            </option>
+                            <%}%>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-3 col-form-label">Valeur</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="valeur" name="valeur" placeholder="0">
                     </div>
                 </div>
                 <div class="form-group mb-2">

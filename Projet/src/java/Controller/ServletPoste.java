@@ -6,24 +6,26 @@
 package Controller;
 
 import Model.ConnectionPs;
-import Model.Materiel;
-import Model.Mouvement;
+import Model.Employer;
+import Model.Poste;
+import Model.Profil;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
- * @author Chan Kenny
+ * @author user
  */
-public class ServletPrixMateriel extends HttpServlet {
+public class ServletPoste extends HttpServlet {
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -35,7 +37,17 @@ public class ServletPrixMateriel extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        Connection connection = ConnectionPs.connexionPostgreSQL();
+        try {
+            Poste[] poste = Poste.postes(connection);
+            connection.close();
+            request.setAttribute("postes", poste);
+            RequestDispatcher dispatcher = null;
+            dispatcher = request.getRequestDispatcher("formPoste.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ServletTaille.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -50,36 +62,18 @@ public class ServletPrixMateriel extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Connection connection = ConnectionPs.connexionPostgreSQL();
-        String price = request.getParameter("prix");
-        String id = request.getParameter("materiel");
-        String idfournisseur = request.getParameter("fournissuer");
-        String quantite = request.getParameter("quantite");
-        Materiel materiel = new Materiel();
-        materiel.setIdMateriel(id);
-        materiel.setIdFournisseurs(idfournisseur);
+        String nom = request.getParameter("nom");
+        Poste profil = new Poste();
+        profil.setNom(nom);
         try {
-            
-            materiel.setQuantite(quantite);
-            materiel.setPrix(price);
-        } catch (Exception ex) {
-            Logger.getLogger(ServletPrixMateriel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            Mouvement mouvement = new Mouvement();
-            mouvement.setId_materiel(materiel.getIdMateriel());
-            mouvement.setQuantite_entree(materiel.getQuantite());
-            mouvement.setQuantite_sortie(0);
-            mouvement.insererMouvement(connection);
-            
-            Materiel.insertPrixMateriel(materiel, connection);
-            connection.commit();
+            profil.insert(connection);
             connection.close();
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         RequestDispatcher dispatcher = null;
         dispatcher = request.getRequestDispatcher("index.jsp");
         dispatcher.forward(request, response);
-
     }
 
     /**
