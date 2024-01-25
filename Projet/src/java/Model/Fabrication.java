@@ -18,7 +18,7 @@ import java.util.Vector;
  *
  * @author P15A-Mirado-159
  */
-@TableInfo(name = "fabrication",user = "postgres",pass = "root",database = "meuble2")
+@TableInfo(name = "fabrication",user = "postgres",pass = "1767",database = "meuble")
 public class Fabrication extends DAO{
 //     id_fabrication | id_mere | quantite | date_fabrication
     @Column (name = "id_fabrication",isPrimary = true)

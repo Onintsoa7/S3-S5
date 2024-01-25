@@ -49,19 +49,26 @@
                     <div class="col-sm-9">
                         <input type="text" class="form-control" id="nom" name="nom" placeholder="nom">
                     </div>
+                </div>
+                <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-3 col-form-label">Prenom</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" id="prenom" name="prenom" placeholder="prenom">
                     </div>
-
+                </div>
+                <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-3 col-form-label">date</label>
                     <div class="col-sm-9">
                         <input type="date" class="form-control" id="date" name="date">
                     </div>
+                </div>
+                <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-3 col-form-label">Adresse</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" id="adresse" name="adresse" placeholder="adresse">
                     </div>
+                </div>
+                <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-3 col-form-label">Contact</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" id="contact" name="contact" placeholder="contact">

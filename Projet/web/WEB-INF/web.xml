@@ -76,6 +76,10 @@
         <servlet-name>ServletPoste</servlet-name>
         <servlet-class>Controller.ServletPoste</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletClient</servlet-name>
+        <servlet-class>Controller.ServletClient</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletLogin</servlet-name>
         <url-pattern>/ServletLogin</url-pattern>
@@ -151,6 +155,10 @@
     <servlet-mapping>
         <servlet-name>ServletPoste</servlet-name>
         <url-pattern>/ServletPoste</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletClient</servlet-name>
+        <url-pattern>/ServletClient</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

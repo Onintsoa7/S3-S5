@@ -367,4 +367,13 @@ SELECT sp.id_profil, sp.nom AS nom_profil, sp.taux_horaire as salaire, sg.annee 
 FROM v_salaire_profil sp
 JOIN v_salaire_profil_grade sg ON sp.id_profil = sg.id_profil;
 
--- fabrication
+---------------------------------------------------------------------------------------------------------------------------------------
+create sequence seq_client start with 1;
+create table client(
+    id_client varchar default ('client'||nextval('seq_client')) primary key,
+    nom varchar,
+    adresse varchar,
+    contact varchar
+);
+
+alter table client add column date_de_naissance date ;
