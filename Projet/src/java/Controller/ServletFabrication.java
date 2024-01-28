@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.ConnectionPs;
+import Model.Cout;
 import Model.Fabrication;
 import Model.Formule;
 import Model.Materiel;
@@ -43,7 +44,13 @@ public class ServletFabrication extends HttpServlet {
         Connection connection = ConnectionPs.connexionPostgreSQL();
         try {
             Mere[] meubles = Mere.meuble(connection);
+            Cout cout = new Cout();
+            Float[] floats = new Float[meubles.length];
+            for (int i = 0; i < meubles.length; i++) {
+                floats[i] = cout.prix_vente(meubles[i].getIdstyle().getIdStyle() ,meubles[i].getIdtaille().getIdTaille(), connection);
+            }
             request.setAttribute("meubles", meubles);
+            request.setAttribute("prix", floats);
         } catch (Exception ex) {
             Logger.getLogger(ServletFabrication.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -5,7 +5,7 @@
  */
 package Controller;
 
-import Model.Genre;
+import Model.Remise;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  *
  * @author user
  */
-public class ServletGenre extends HttpServlet {
+public class ServletRemise extends HttpServlet {
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -33,9 +33,8 @@ public class ServletGenre extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDispatcher dispatcher = null;
-        dispatcher = request.getRequestDispatcher("formGenre.jsp");
+        dispatcher = request.getRequestDispatcher("formRemise.jsp");
         dispatcher.forward(request, response);
-        //processRequest(request, response);
     }
 
     /**
@@ -49,19 +48,19 @@ public class ServletGenre extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Remise remise = new Remise();
         String nom = request.getParameter("nom");
-        Genre genre = new Genre();
-        genre.setNom(nom);
+        String valeur = request.getParameter("valeur");
+        remise.setNom(nom);
         try {
-            genre.insert(null);
+            remise.setMontant(valeur);
+            remise.insert(null);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         RequestDispatcher dispatcher = null;
         dispatcher = request.getRequestDispatcher("index.jsp");
         dispatcher.forward(request, response);
-        //processRequest(request, response);
-        
     }
 
     /**

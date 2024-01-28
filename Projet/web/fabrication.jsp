@@ -7,6 +7,7 @@
 <%@page import="Model.*" %>
 <%
     Mere[] description = (Mere[])request.getAttribute("meubles");
+    Float[] prix = (Float[])request.getAttribute("prix");
 %>
 <%@include file="header.jsp" %>
 <main role="main" class="main-content">
@@ -42,7 +43,6 @@
             </form>
         </div>
     </div>
-
     <div class="card shadow mb-4">
         <div class="card-header">
             <strong class="card-title">Prix de vente</strong>
@@ -80,12 +80,14 @@
             <thead>
                 <tr>
                     <th><strong>Categorie</strong></th>
+                    <th><strong>Prix de vente unitaire</strong></th>
                 </tr>
             </thead>
             <tbody>             
                 <% for (int i = 0; i < description.length; i++) {%>
                 <tr>
                     <td><strong><%=description[i].getIdcategorie().getNom() + "-" + description[i].getIdstyle().getNom() + "(" + description[i].getIdtaille().getNom() + ")" %></strong></td>
+                    <td><strong><%=prix[i]%> AR</strong></td>
                     <td><a href="ServletChart?mere=<%=description[i].getIdmere()%>"><button class="btn mb-2 btn-outline-success"><span class="fe fe-24 fe-more-vertical"></span></button></a></td>
                 </tr>
                 <%    }

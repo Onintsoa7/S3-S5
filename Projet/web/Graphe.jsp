@@ -5,7 +5,7 @@
 --%>
 <head>
     <meta charset="UTF-8">
-    <title>Graphique en Tarte</title>
+    <title>Graphique</title>
     <!-- Incluez Chart.js depuis un CDN -->
     <link rel="stylesheet" href="assets/css/question.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -50,7 +50,7 @@
             <%}}%>
             var ctx = document.getElementById("myPieChart").getContext("2d");
             var myPieChart = new Chart(ctx, {
-                type: "pie", // Type de graphique : "pie" pour un graphique en tarte
+                type: "polarArea", // Type de graphique : "pie" pour un graphique en tarte
                 data: {
                     labels: ["FEMME", "HOMME", "AUTRES"], // Étiquettes pour les parties du graphique
                     datasets: [{

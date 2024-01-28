@@ -327,7 +327,7 @@ public class DAO {
         for (Field field : fields) {
             field.setAccessible(true);
             Column colInfo=null;
-            if (field.isAnnotationPresent(Column.class)&&field.get(this)!=null) {
+            if (field.isAnnotationPresent(Column.class)&&field.get(this) != null) {
                 colInfo=field.getAnnotation(Column.class);
                 query+=colInfo.name()+"= ? and ";
                 settedField.add(field);

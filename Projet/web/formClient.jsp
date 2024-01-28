@@ -101,7 +101,7 @@ Genre[] genres = (Genre[]) request.getAttribute("genres");
                     <td><strong><%=clients[i].getNom()%></strong></td>
                     <td><a href="#" ><button class="btn mb-2 btn-outline-warning"><span class="fe fe-24 fe-edit-3"></span></button></a></td>
                     <td><a><button class="btn mb-2 btn-outline-danger btn mb-2" data-toggle="modal" data-target="#defaultModal"><span class="fe fe-24 fe-x-circle"></span></button></a></td>
-                    <td><a href="#"><button class="btn mb-2 btn-outline-success"><span class="fe fe-24 fe-more-vertical"></span></button></a></td>
+                    <td><a href="ServletListeFacture?id_client=<%=clients[i].getId_client() %>"><button class="btn mb-2 btn-outline-success"><span class="fe fe-24 fe-more-vertical"></span></button></a></td>
             <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">

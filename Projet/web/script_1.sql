@@ -437,3 +437,110 @@ FROM
   v_client_detail_vente
 GROUP BY
   id_mere, id_genre;
+-------------------------------------------------------------------------------------------------------------------------------------------------
+alter table vente add column montant_sans_remise float;
+update vente set montant_sans_remise = montant;
+
+create sequence seq_facture start with 1;
+create table facture(
+    id_facture varchar default ('facture'||nextval('seq_facture')) primary key,
+    id_vente varchar references vente(id_vente),
+    montant_paye float,
+    montant_restant float
+);
+alter table facture add column date_paiement date default now();
+
+create sequence seq_remise start with 1;
+create table remise(
+    id_remise varchar default ('remise'||nextval('seq_remise')) primary key,
+    nom varchar,
+    montant float
+);
+
+create sequence seq_facture_remise start with 1;
+create table facture_remise(
+    id_facture_remise varchar default ('facture_remise'||nextval('seq_facture_remise')) primary key,
+    id_vente varchar references vente(id_vente),
+    id_remise varchar references remise(id_remise)
+);
+
+create or replace view v_facture_restante as
+SELECT DISTINCT ON (f.id_vente)
+    f.id_facture,
+    v.id_client,
+    c.nom as nom_client,
+    f.montant_restant,
+    v.montant,
+    f.id_vente,
+    f.date_paiement
+FROM facture f
+JOIN vente v ON v.id_vente = f.id_vente
+JOIN client c ON c.id_client = v.id_client
+ORDER BY f.id_vente,v.id_client, f.date_paiement desc;
+
+
+
+create view v_facture_reste as
+WITH max_id_cte AS (
+  SELECT
+    id_vente,
+    MAX(CAST(SUBSTRING(id_facture FROM 'facture([0-9]+)') AS INTEGER)) AS max_id_numeric
+  FROM facture
+  GROUP BY id_vente
+)
+SELECT
+  id_vente,
+  'facture' || max_id_numeric AS max_id_facture
+FROM max_id_cte;
+
+
+
+create view v_detail_vente_client as
+SELECT v.*, c.nom AS client_name, c.date_de_naissance
+FROM vente v
+JOIN client c ON v.id_client = c.id_client;
+
+
+
+
+
+
+
+
+create view v_detail_facture as
+SELECT
+    vd.id_vente_detail,
+    vd.id_vente,
+    m.idmere,
+    m.idstyle,
+    m.idtaille,
+    m.idcategorie,
+    m.description,
+    vd.quantite,
+    vd.prix_unitaire,
+    (vd.quantite*vd.prix_unitaire) as montant
+FROM
+    vente_detail vd
+JOIN
+    mere m ON vd.id_mere = m.idmere;
+
+create view v_detail_paiement_facture as
+SELECT
+    f.id_facture,
+    f.id_vente,
+    f.montant_paye,
+    f.montant_restant,
+    f.date_paiement,
+    v.id_client,
+    v.montant AS montant_vente,
+    v.date_vente,
+    v.montant_sans_remise
+FROM
+    facture f
+JOIN
+    vente v ON f.id_vente = v.id_vente;
+
+create view v_facture_remise as
+SELECT fr.id_facture_remise, fr.id_vente, r.nom as nom_remise, r.montant as montant_remise
+FROM facture_remise fr
+JOIN remise r ON fr.id_remise = r.id_remise;

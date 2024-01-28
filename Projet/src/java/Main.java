@@ -1,4 +1,5 @@
 
+import Model.Genre;
 import java.time.LocalDate;
 
 /*
@@ -30,6 +31,9 @@ public class Main {
         // Converting java.time.LocalDate back to java.sql.Date
         java.sql.Date newSqlDate = java.sql.Date.valueOf(newDate);
          System.out.println("Date after adding 2 years: " + newSqlDate);
+        Genre genre = new Genre();
+        genre.setId_genre("genre2");
+        genre.setNom("Femme");
+        genre.update(null);
     }
-    
 }

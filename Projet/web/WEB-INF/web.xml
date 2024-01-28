@@ -92,6 +92,14 @@
         <servlet-name>ServletGenre</servlet-name>
         <servlet-class>Controller.ServletGenre</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletRemise</servlet-name>
+        <servlet-class>Controller.ServletRemise</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletListeFacture</servlet-name>
+        <servlet-class>Controller.ServletListeFacture</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletLogin</servlet-name>
         <url-pattern>/ServletLogin</url-pattern>
@@ -183,6 +191,14 @@
     <servlet-mapping>
         <servlet-name>ServletGenre</servlet-name>
         <url-pattern>/ServletGenre</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletRemise</servlet-name>
+        <url-pattern>/ServletRemise</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletListeFacture</servlet-name>
+        <url-pattern>/ServletListeFacture</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

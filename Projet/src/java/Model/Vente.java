@@ -26,6 +26,8 @@ public class Vente extends DAO{
     private String id_client;
     @Column(name = "montant")
     private Float montant;
+    @Column(name = "montant_sans_remise")
+    private Float montant_sans_remise;
     @Column (name = "date_vente")
     private Date date_vente;
 
@@ -67,6 +69,14 @@ public class Vente extends DAO{
         this.date_vente = date_vente;
     }
 
+    public Float getMontant_sans_remise() {
+        return montant_sans_remise;
+    }
+
+    public void setMontant_sans_remise(Float montant_sans_remise) {
+        this.montant_sans_remise = montant_sans_remise;
+    }
+
     
     public String getId_vente() {
         return id_vente;
@@ -96,6 +106,18 @@ public class Vente extends DAO{
         this.montant = montant;
     }
 
+    public void setMontant_sans_remise(String montant_sans_remise) throws Exception {
+        ConnectionPs.isNotEmpty(montant_sans_remise);
+        ConnectionPs.isFloat(montant_sans_remise);
+        ConnectionPs.isNotNegative(montant_sans_remise);
+        this.setMontant_sans_remise(Float.valueOf(montant_sans_remise));
+    }
+    public void setMontant(String montant) throws Exception {
+        ConnectionPs.isNotEmpty(montant);
+        ConnectionPs.isFloat(montant);
+        ConnectionPs.isNotNegative(montant);
+        this.setMontant(Float.valueOf(montant));
+    }
     public void setDate_vente(Date date_vente) {
         this.date_vente = date_vente;
     }
